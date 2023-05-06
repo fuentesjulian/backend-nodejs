@@ -17,10 +17,10 @@ router
       // grabo el cart
       const cart = await cartsManager.createOne(cartData);
       // envio el cart grabado
-      res.status(201).send(cart);
+      res.status(201).send({ status: "success", payload: { cart } });
     } catch (error) {
       // si tengo un error para grabar, devuelvo un 500
-      res.status(500).send({ error: error.message });
+      res.status(500).send({ status: "server error", error: error.message });
     }
   })
   .get("/:cid", async (req, res) => {
@@ -32,14 +32,16 @@ router
       if (cart) {
         // si existe cart devuelvo los productos (puede ser un array vacio [])
         const products = cart.products;
-        res.status(200).send(products);
+        res.status(200).send({ status: "success", payload: { products } });
       } else {
         // si no existe un cart devuelvo un error 400, asumo que el usuario esta jugando con las rutas
-        res.status(400).send({ error: "Parametros incorrectos" });
+        res
+          .status(400)
+          .send({ status: "client error", error: "Parametros incorrectos" });
       }
     } catch (error) {
       // si hay un error para leer la DB devuelvo 500
-      res.status(500).send({ error: error.message });
+      res.status(500).send({ status: "server error", error: error.message });
     }
   })
   .post("/:cid/product/:pid", async (req, res) => {
@@ -53,7 +55,7 @@ router
       const product = await productsManager.getById(pid);
       // si no existe un cart o la cantidad no esta setteada devuelvo un 400
       if (cart === undefined || product === undefined) {
-        res.status(400).send({ error: "Parametros incorrectos" });
+        res.status(400).send({ status: "client error", error: "Parametros incorrectos" });
       } else {
         // si encuentro cart y la quantity esta definido busco los prods del cart
         let products = cart.products;
@@ -73,12 +75,12 @@ router
         }
         // grabo en el cart manager el carrito actualizado
         await cartsManager.updateOne(cid, { products });
-        // devuelvo status
-        res.status(201).send({ success: `Prod id ${pid} a cart ${cid}` });
+        // devuelvo status con el cart como payload
+        res.status(201).send({ status: "success", payload: { products } });
       }
     } catch (error) {
       // si tengo un error en la bd devuelvo un 500
-      res.status(500).send({ error: error.message });
+      res.status(500).send({ status: "server error", error: error.message });
     }
   })
   .delete("/:cid/product/:pid", async (req, res) => {
@@ -90,7 +92,7 @@ router
     try {
       const cart = await cartsManager.getById(cid);
       if (cart === undefined) {
-        res.status(400).send({ error: "Parametros incorrectos" });
+        res.status(400).send({ status: "client error", error: "Parametros incorrectos" });
       } else {
         let products = cart.products;
         // filtro el array products para eliminar el elemento que tenga el id === pid
@@ -98,11 +100,11 @@ router
         await cartsManager.updateOne(cid, { products });
         res
           .status(200)
-          .send({ success: `Eliminado el prod id ${pid} en el cart ${cid}` });
+          .send({ status: "success", payload: { products } });
       }
     } catch (error) {
       // si tengo un error al grabar o leer devuelvo un 500
-      res.status(500).send({ error: error.message });
+      res.status(500).send({ status: "server error", error: error.message });
     }
   });
 

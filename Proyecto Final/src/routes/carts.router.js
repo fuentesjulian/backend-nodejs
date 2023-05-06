@@ -19,6 +19,19 @@ router
   .post("/:cid/product/:pid", async (req, res) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
+    const { quantity } = req.body;
+    const cart = await cartsManager.getById(cid);
+    let products = cart.products;
+    const inCart = products.some((prod) => prod.product == pid);
+    if (inCart) {
+      products = products.map((prod) => {
+        if (prod.product == pid) return { ...prod, quantity };
+        return prod;
+      });
+    } else {
+      products.push({ product: pid, quantity });
+    }
+    await cartsManager.updateOne(cid, { products });
     res.status(201).send(`Agrego cantidad de prod id ${pid} en el cart ${cid}`);
   });
 

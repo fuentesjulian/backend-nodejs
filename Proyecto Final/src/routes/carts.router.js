@@ -12,7 +12,9 @@ router
   })
   .get("/:cid", async (req, res) => {
     const cid = req.params.cid;
-    res.status(200).send(`Obtengo cart ${cid}`);
+    const cart = await cartsManager.getById(cid);
+    const products = cart.products;
+    res.status(200).send(products);
   })
   .post("/:cid/product/:pid", async (req, res) => {
     const cid = req.params.cid;

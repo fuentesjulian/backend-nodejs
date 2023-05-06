@@ -13,15 +13,16 @@ class ItemManager {
     try {
       const data = await fs.readFile(this.filePath, "utf-8");
       const items = JSON.parse(data);
+      return items;
     } catch (error) {
-      if (error.code === "ENOENT") return { items: [] };
+      if (error.code === "ENOENT") return [];
       throw error;
     }
   }
 
   async getById(id) {
     const items = await this.getAll();
-    return items.find((item) => item.id === id) ?? false;
+    return items.find((item) => item.id == id);
   }
 
   async createOne(item) {
@@ -30,12 +31,13 @@ class ItemManager {
     item = { ...item, id };
     items.push(item);
     await this.#save(items);
+    return item;
   }
 
   async updateOne(id, itemData) {
     let items = await this.getAll();
     items = items.map((item) => {
-      if (item.id === id) return { ...item, ...itemData };
+      if (item.id == id) return { ...item, ...itemData };
       return item;
     });
     await this.#save(items);
@@ -43,7 +45,9 @@ class ItemManager {
 
   async deleteOne(id) {
     let items = await this.getAll();
-    items = items.filter((item) => item.id !== id);
+    items = items.filter((item) => item.id != id);
     await this.#save(items);
   }
 }
+
+export default ItemManager;

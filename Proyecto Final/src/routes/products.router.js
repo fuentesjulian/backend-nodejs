@@ -47,10 +47,11 @@ router
       stock,
       category,
       thumbnails,
+      status,
     } = req.body;
 
     if (title && description && code && price && stock && category) {
-      const productData = {
+      let productData = {
         title,
         description,
         code,
@@ -59,6 +60,8 @@ router
         category,
         thumbnails: thumbnails ?? [],
       };
+      if (status !== undefined) productData = { ...productData, status };
+
       const product = await productsManager.updateOne(pid, productData);
       res.status(200).send(`Modifico el producto id ${pid}`);
     } else {

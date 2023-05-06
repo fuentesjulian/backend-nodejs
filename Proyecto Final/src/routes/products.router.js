@@ -1,37 +1,52 @@
+// importo el router de express
 import { Router } from "express";
+// importo el item manager
 import ItemManager from "../database/ItemManager.js";
 
+// creo mi router
 const router = Router();
+// instancio productsManager con el path
 const productsManager = new ItemManager("./src/database/productos.json");
 
 router
   .get("/", async (req, res) => {
     try {
+      // obtengo todos los productos
       const allProducts = await productsManager.getAll();
+      // obtengo el query limit
       const limit = req.query.limit;
+      // si limit esta definido corto el array con ese limit, sino devuelvo todo
       const products = limit ? allProducts.slice(0, limit) : allProducts;
+      // devuelvo objeto
       res.status(200).send(products);
     } catch (error) {
+      // si hay un error al leer con el item manager este catch ataja el error
       res.status(500).send({ error: error.message });
     }
   })
   .get("/:pid", async (req, res) => {
     try {
       const pid = req.params.pid;
+      // obtengo el producto por id
       const product = await productsManager.getById(pid);
       if (product === undefined) {
+        // si el id no matchea es un error de la ruta q puso el usuario
         res.status(400).send({ error: "Parametros incorrectos" });
       } else {
+        // si hay match devuelve el prod
         res.status(200).send(product);
       }
     } catch (error) {
+      // si hay un error al leer la base el catch ataja el error
       res.status(500).send({ error: error.message });
     }
   })
   .post("/", async (req, res) => {
+    // obtengo los campos que necesito destructurando el body
     const { title, description, code, price, stock, category, thumbnails } =
       req.body;
 
+    // me aseguro que los campos obligatorios esten presentes
     if (title && description && code && price && stock && category) {
       try {
         const productData = {
@@ -40,16 +55,20 @@ router
           code,
           price,
           stock,
-          status: true,
+          status: true, // status es true por defecto
           category,
-          thumbnails: thumbnails ?? [],
+          thumbnails: thumbnails ?? [], // si no estan los thumbnails para homogeneizar mando un array vacio
         };
+        // creo un nuevo producto
         const product = await productsManager.createOne(productData);
+        // envio el producto creado
         res.status(201).send(product);
       } catch (error) {
+        // si hay un error al grabar me devuelve un status 500 con el error
         res.status(500).send({ error: error.message });
       }
     } else {
+      // si falta un parametro envio error
       res.status(400).send({ error: "Faltan parametros" });
     }
   })
@@ -65,7 +84,7 @@ router
       thumbnails,
       status,
     } = req.body;
-
+    // asumo que siguen siendo obligatorios los campos
     if (title && description && code && price && stock && category) {
       try {
         let productData = {
@@ -77,22 +96,30 @@ router
           category,
           thumbnails: thumbnails ?? [],
         };
+        // en este caso, si status es par de los campos, asumo que queremos editarlo y lo agrego
+        // ejemplo: quiero quitar de los publicados el producto, lo pongo en false
         if (status !== undefined) productData = { ...productData, status };
+        // grabo
         const product = await productsManager.updateOne(pid, productData);
+        // envio mensaje de grabado
         res.status(200).send({ success: `Modifico el producto id ${pid}` });
       } catch (error) {
+        // si tengo un error al grabar devuelvo un 500
         res.status(500).send({ error: error.message });
       }
     } else {
+      // si falta un parametro devuelvo un 400
       res.status(400).send({ error: "Faltan parametros" });
     }
   })
   .delete("/:pid", async (req, res) => {
     const pid = req.params.pid;
     try {
+      // elimino producto
       await productsManager.deleteOne(pid);
       res.status(200).send({ success: `Producto id ${pid} eliminado` });
     } catch (error) {
+      // si tengo error al eliminar producto un 500
       res.status(500).send({ error: error.message });
     }
   });

@@ -79,7 +79,7 @@ router
         };
         if (status !== undefined) productData = { ...productData, status };
         const product = await productsManager.updateOne(pid, productData);
-        res.status(200).send(`Modifico el producto id ${pid}`);
+        res.status(200).send({ success: `Modifico el producto id ${pid}` });
       } catch (error) {
         res.status(500).send({ error: error.message });
       }

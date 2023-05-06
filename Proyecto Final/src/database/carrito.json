@@ -2,10 +2,6 @@
   {
     "products": [
       {
-        "product": "2",
-        "quantity": 15
-      },
-      {
         "product": "3",
         "quantity": 22
       }

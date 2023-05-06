@@ -5,8 +5,9 @@ import ItemManager from "../database/ItemManager.js";
 
 // creo mi router
 const router = Router();
-// instancio cartsManager con el path
+// instancio cartsManager y el productsManager con el path
 const cartsManager = new ItemManager("./src/database/carrito.json");
+const productsManager = new ItemManager("./src/database/productos.json");
 
 router
   .post("/", async (req, res) => {
@@ -47,10 +48,11 @@ router
     // id del producto
     const pid = req.params.pid;
     try {
-      // obtengo por id el cart
+      // obtengo por id el cart y el producto
       const cart = await cartsManager.getById(cid);
+      const product = await productsManager.getById(pid);
       // si no existe un cart o la cantidad no esta setteada devuelvo un 400
-      if (cart === undefined) {
+      if (cart === undefined || product === undefined) {
         res.status(400).send({ error: "Parametros incorrectos" });
       } else {
         // si encuentro cart y la quantity esta definido busco los prods del cart

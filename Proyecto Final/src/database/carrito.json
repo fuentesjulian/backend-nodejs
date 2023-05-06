@@ -3,7 +3,15 @@
     "products": [
       {
         "product": "3",
-        "quantity": 35
+        "quantity": 37
+      },
+      {
+        "product": "1",
+        "quantity": 2
+      },
+      {
+        "product": "6",
+        "quantity": 1
       }
     ],
     "id": 1

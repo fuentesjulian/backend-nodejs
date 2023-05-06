@@ -53,6 +53,7 @@ class ItemManager {
   }
 
   async updateOne(id, itemData) {
+    console.log("itemData", itemData)
     // obtengo todos los items
     let items = await this.getAll();
     // con un map solo modifico el item que matchea con el id

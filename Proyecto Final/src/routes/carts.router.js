@@ -46,13 +46,11 @@ router
     const cid = req.params.cid;
     // id del producto
     const pid = req.params.pid;
-    // cantidad que quiero agregar / modificar
-    const { quantity } = req.body;
     try {
       // obtengo por id el cart
       const cart = await cartsManager.getById(cid);
       // si no existe un cart o la cantidad no esta setteada devuelvo un 400
-      if (cart === undefined || quantity === undefined) {
+      if (cart === undefined) {
         res.status(400).send({ error: "Parametros incorrectos" });
       } else {
         // si encuentro cart y la quantity esta definido busco los prods del cart
@@ -62,19 +60,19 @@ router
         // si existe el producto modifico con un map el producto
         if (inCart) {
           products = products.map((prod) => {
-            if (prod.product == pid) return { ...prod, quantity };
+            if (prod.product == pid) {
+              return { ...prod, quantity: prod.quantity + 1 };
+            }
             return prod;
           });
         } else {
           // si no existe al array de productos el producto
-          products.push({ product: pid, quantity });
+          products.push({ product: pid, quantity: 1 });
         }
         // grabo en el cart manager el carrito actualizado
         await cartsManager.updateOne(cid, { products });
         // devuelvo status
-        res.status(201).send({
-          success: `Se agregaron ${quantity} unidades del prod id ${pid} en el cart ${cid}`,
-        });
+        res.status(201).send({ success: `Prod id ${pid} a cart ${cid}` });
       }
     } catch (error) {
       // si tengo un error en la bd devuelvo un 500

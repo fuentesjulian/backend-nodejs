@@ -51,20 +51,28 @@ router
     // me aseguro que los campos obligatorios esten presentes
     if (title && description && code && price && stock && category) {
       try {
-        const productData = {
-          title,
-          description,
-          code,
-          price,
-          stock,
-          status: true, // status es true por defecto
-          category,
-          thumbnails: thumbnails ?? [], // si no estan los thumbnails para homogeneizar mando un array vacio
-        };
-        // creo un nuevo producto
-        const product = await productsManager.createOne(productData);
-        // envio el producto creado
-        res.status(201).send({ status: "success", payload: { product } });
+        const allProducts = await productsManager.getAll();
+        const isDuplicate = allProducts.some((prod) => prod.code == code);
+        if (isDuplicate) {
+          res
+            .status(400)
+            .send({ status: "client error", error: "Codigo duplicado" });
+        } else {
+          const productData = {
+            title,
+            description,
+            code,
+            price,
+            stock,
+            status: true, // status es true por defecto
+            category,
+            thumbnails: thumbnails ?? [], // si no estan los thumbnails para homogeneizar mando un array vacio
+          };
+          // creo un nuevo producto
+          const product = await productsManager.createOne(productData);
+          // envio el producto creado
+          res.status(201).send({ status: "success", payload: { product } });
+        }
       } catch (error) {
         // si hay un error al grabar me devuelve un status 500 con el error
         res.status(500).send({ status: "server error", error: error.message });

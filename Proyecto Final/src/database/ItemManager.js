@@ -53,17 +53,23 @@ class ItemManager {
   }
 
   async updateOne(id, itemData) {
-    console.log("itemData", itemData)
+    console.log("itemData", itemData);
     // obtengo todos los items
     let items = await this.getAll();
     // con un map solo modifico el item que matchea con el id
     // si no hay match lo devuelvo igual a como estaba
+    let updatedItem = {};
     items = items.map((item) => {
-      if (item.id == id) return { ...item, ...itemData };
+      if (item.id == id) {
+        updatedItem = { ...item, ...itemData };
+        return updatedItem;
+      }
       return item;
     });
     // grabo
     await this.#save(items);
+    // devuelvo el item actualizado
+    return updatedItem;
   }
 
   async deleteOne(id) {

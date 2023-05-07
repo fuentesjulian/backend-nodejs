@@ -18,10 +18,10 @@ router
       // si limit esta definido corto el array con ese limit, sino devuelvo todo
       const products = limit ? allProducts.slice(0, limit) : allProducts;
       // devuelvo objeto
-      res.status(200).send(products);
+      res.status(200).send({ status: "success", payload: { products } });
     } catch (error) {
       // si hay un error al leer con el item manager este catch ataja el error
-      res.status(500).send({ error: error.message });
+      res.status(500).send({ status: "server error", error: error.message });
     }
   })
   .get("/:pid", async (req, res) => {
@@ -31,14 +31,16 @@ router
       const product = await productsManager.getById(pid);
       if (product === undefined) {
         // si el id no matchea es un error de la ruta q puso el usuario
-        res.status(400).send({ error: "Parametros incorrectos" });
+        res
+          .status(400)
+          .send({ status: "client error", error: "Parametros incorrectos" });
       } else {
         // si hay match devuelve el prod
-        res.status(200).send(product);
+        res.status(200).send({ status: "success", payload: { product } });
       }
     } catch (error) {
       // si hay un error al leer la base el catch ataja el error
-      res.status(500).send({ error: error.message });
+      res.status(500).send({ status: "server error", error: error.message });
     }
   })
   .post("/", async (req, res) => {
@@ -62,14 +64,16 @@ router
         // creo un nuevo producto
         const product = await productsManager.createOne(productData);
         // envio el producto creado
-        res.status(201).send(product);
+        res.status(201).send({ status: "success", payload: { product } });
       } catch (error) {
         // si hay un error al grabar me devuelve un status 500 con el error
-        res.status(500).send({ error: error.message });
+        res.status(500).send({ status: "server error", error: error.message });
       }
     } else {
       // si falta un parametro envio error
-      res.status(400).send({ error: "Faltan parametros" });
+      res
+        .status(400)
+        .send({ status: "client error", error: "Faltan parametros" });
     }
   })
   .put("/:pid", async (req, res) => {
@@ -102,14 +106,16 @@ router
         // grabo
         const product = await productsManager.updateOne(pid, productData);
         // envio mensaje de grabado
-        res.status(200).send({ success: `Modifico el producto id ${pid}` });
+        res.status(200).send({ status: "success", payload: { product } });
       } catch (error) {
         // si tengo un error al grabar devuelvo un 500
-        res.status(500).send({ error: error.message });
+        res.status(500).send({ status: "server error", error: error.message });
       }
     } else {
       // si falta un parametro devuelvo un 400
-      res.status(400).send({ error: "Faltan parametros" });
+      res
+        .status(400)
+        .send({ status: "client error", error: "Faltan parametros" });
     }
   })
   .delete("/:pid", async (req, res) => {
@@ -117,10 +123,10 @@ router
     try {
       // elimino producto
       await productsManager.deleteOne(pid);
-      res.status(200).send({ success: `Producto id ${pid} eliminado` });
+      res.status(200).send({ status: "success", payload: { id: pid } });
     } catch (error) {
       // si tengo error al eliminar producto un 500
-      res.status(500).send({ error: error.message });
+      res.status(500).send({ status: "server error", error: error.message });
     }
   });
 

@@ -1,5 +1,7 @@
 const socket = io();
 
+
+// renderizo los productos
 const render = (products) => {
   const html = products
     .map((prod) => {
@@ -45,6 +47,7 @@ productForm.addEventListener("submit", (e) => {
   })
     .then((data) => data.json())
     .then((json) => {
+      // capto los errores
       if (json.status === "client error" || json.status === "server error") {
         alert(json.error);
       } else {

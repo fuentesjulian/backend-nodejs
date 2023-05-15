@@ -2,12 +2,13 @@
 import { Router } from "express";
 // importo el item manager
 import productsManager from "../database/ProductManager.js";
-// import io de sockets
+// import io de sockets, el unico agregado es la funcion emitProducts
 import { io } from "../server.js";
 
 // creo mi router
 const router = Router();
 
+// esta funcion es una que corre con el POST, PUT y DELETE para emitir por socket cada vez que hay estos cambios
 const emitProducts = async () => {
   const products = await productsManager.getAll();
   io.emit("products", products);

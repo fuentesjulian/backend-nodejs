@@ -1,13 +1,10 @@
 // importo el router de express
 import { Router } from "express";
 // importo el item manager
-import ItemManager from "../database/ItemManager.js";
+import productsManager from "../database/ProductManager.js";
 
 // creo mi router
 const router = Router();
-
-// instancio el productManager, lo voy a usar cada vez que renderizo los productos
-const productsManager = new ItemManager("./src/database/productos.json");
 
 router.get("/", async (req, res) => {
   const products = await productsManager.getAll();

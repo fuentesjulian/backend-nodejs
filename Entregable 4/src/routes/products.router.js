@@ -1,14 +1,12 @@
 // importo el router de express
 import { Router } from "express";
 // importo el item manager
-import ItemManager from "../database/ItemManager.js";
+import productsManager from "../database/ProductManager.js";
 // import io de sockets
 import { io } from "../server.js";
 
 // creo mi router
 const router = Router();
-// instancio productsManager con el path
-const productsManager = new ItemManager("./src/database/productos.json");
 
 const emitProducts = async () => {
   const products = await productsManager.getAll();

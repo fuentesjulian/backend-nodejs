@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Camiseta AFA",
+    "description": "Camiseta de la seleccion Argentina",
+    "code": "CSA01",
+    "price": "30000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://www.dexter.com.ar/on/demandware.static/-/Sites-365-dabra-catalog/default/dwfde35594/products/ADIR2707/ADIR2707-1.JPG"
+    ],
+    "id": 1
+  }
+]

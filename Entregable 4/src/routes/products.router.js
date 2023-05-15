@@ -2,11 +2,18 @@
 import { Router } from "express";
 // importo el item manager
 import ItemManager from "../database/ItemManager.js";
+// import io de sockets
+import { io } from "../server.js";
 
 // creo mi router
 const router = Router();
 // instancio productsManager con el path
 const productsManager = new ItemManager("./src/database/productos.json");
+
+const emitProducts = async () => {
+  const products = await productsManager.getAll();
+  io.emit("products", products);
+};
 
 router
   .get("/", async (req, res) => {
@@ -70,6 +77,8 @@ router
           };
           // creo un nuevo producto
           const product = await productsManager.createOne(productData);
+          // emito los productos, no es necesario el await
+          emitProducts();
           // envio el producto creado
           res.status(201).send({ status: "success", payload: { product } });
         }
@@ -113,6 +122,8 @@ router
         if (status !== undefined) productData = { ...productData, status };
         // grabo
         const product = await productsManager.updateOne(pid, productData);
+        // emito los productos, no es necesario el await
+        emitProducts();
         // envio mensaje de grabado
         res.status(200).send({ status: "success", payload: { product } });
       } catch (error) {
@@ -131,6 +142,8 @@ router
     try {
       // elimino producto
       await productsManager.deleteOne(pid);
+      // emito los productos, no es necesario el await
+      emitProducts();
       res.status(200).send({ status: "success", payload: { id: pid } });
     } catch (error) {
       // si tengo error al eliminar producto un 500

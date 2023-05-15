@@ -1,0 +1,18 @@
+<div class="container" id="products">
+    {{#each products}}
+    <div class="card" style="width: 18rem;">
+        {{#if this.thumbnails.length}}
+        <img src="{{this.thumbnails.[0]}}" class="card-img-top" alt="..." />
+        {{else}}
+        <img src="https://placehold.co/200x200" class="card-img-top" alt="..." />
+        {{/if}}
+        <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">{{this.category}} - Codigo: {{this.code}}</p>
+        <p class="card-text">$ {{this.price}}</p>
+        <p class="card-text">Stock {{this.stock}}</p>
+        <p class="card-text">{{this.description}}</p>
+        </div>
+    </div>
+    {{/each}}
+</div>

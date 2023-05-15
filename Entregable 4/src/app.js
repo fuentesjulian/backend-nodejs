@@ -17,21 +17,33 @@ app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", handlebars.engine());
 
 import { fileURLToPath } from "url";
-import { dirname } from "path";
+import path, { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.set("views", __dirname + "/views");
+// setteo rutas de archivos estaticos
+app.use(express.static('public'));
+
+//app.set("views", path.join(__dirname, "..", "/views"));
+app.set("views", "views/");
 app.set("view engine", "handlebars");
-app.get("/", (req, res) => {
-  res.render("index");
+
+// importo el item manager
+import ItemManager from "./database/ItemManager.js";
+const productsManager = new ItemManager("./src/database/productos.json");
+
+app.get("/", async (req, res) => {
+  const products = await productsManager.getAll();
+  res.render("index", { products });
 });
+
+app.get("/realtimeproducts",(req,res)=>{
+  res.render("realTimeProducts")
+})
 
 // defino las rutas
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
 
-// levanto al servidor en puerto 8080
-app.listen(8080, () => {
-  console.log("Escuchando en puerto 8080");
-});
+// exporto la app
+export default app;

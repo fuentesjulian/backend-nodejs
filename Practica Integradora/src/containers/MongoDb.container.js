@@ -10,14 +10,17 @@ class MongoDbContainer {
   // leo todos los registros y los devuelvo
   async getAll() {
     const data = await this.model.find();
-    const allProds = asPOJO(data);
-    allProds.map((prod) => replace(prod, "_id", "id"));
-    return allProds;
+    let allItems = asPOJO(data);
+    allItems.map((prod) => replace(prod, "_id", "id"));
+    return allItems;
   }
 
   // uso getAll y filtro por id
   async getOne(id) {
-    return await this.model.find({ _id: id });
+    const data = await this.model.findOne({ _id: id });
+    let product = asPOJO(data);
+    product = replace(product, "_id", "id");
+    return product;
   }
 
   // creo a un item nuevo

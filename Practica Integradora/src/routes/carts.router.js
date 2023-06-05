@@ -5,6 +5,8 @@ import ItemManager from "../database/ItemManager.js";
 
 // importo el productDato
 import productDao from "../dao/Products.DAO.js";
+// importo el cartDao
+import cartDao from "../dao/Carts.DAO.js";
 
 // creo mi router
 const router = Router();
@@ -18,7 +20,7 @@ router
     const cartData = { products: [] };
     try {
       // grabo el cart
-      const cart = await cartsManager.createOne(cartData);
+      const cart = await cartDao.createOne(cartData);
       // envio el cart grabado
       res.status(201).send({ status: "success", payload: { cart } });
     } catch (error) {
@@ -31,7 +33,7 @@ router
     const cid = req.params.cid;
     try {
       // leo el cart en la DB
-      const cart = await cartsManager.getById(cid);
+      const cart = await cartDao.getOne(cid);
       if (cart) {
         // si existe cart devuelvo los productos (puede ser un array vacio [])
         const products = cart.products;
@@ -54,7 +56,7 @@ router
     const pid = req.params.pid;
     try {
       // obtengo por id el cart y el producto
-      const cart = await cartsManager.getById(cid);
+      const cart = await cartDao.getOne(cid);
       const product = await productDao.getOne(pid);
       // si no existe un cart o la cantidad no esta setteada devuelvo un 400
       if (cart === undefined || product === undefined) {
@@ -63,9 +65,11 @@ router
           .send({ status: "client error", error: "Parametros incorrectos" });
       } else {
         // si encuentro cart y la quantity esta definido busco los prods del cart
-        let products = cart.products;
+        let products = cart.products ?? [];
+        console.log(cart)
         // checkeo que este en la cart el producto con el id pid
-        const inCart = products.some((prod) => prod.product == pid);
+        const inCart = products?.some((prod) => prod.product == pid);
+        
         // si existe el producto modifico con un map el producto
         if (inCart) {
           products = products.map((prod) => {
@@ -79,7 +83,7 @@ router
           products.push({ product: pid, quantity: 1 });
         }
         // grabo en el cart manager el carrito actualizado
-        await cartsManager.updateOne(cid, { products });
+        await cartDao.updateOne(cid, { products });
         // devuelvo status con el cart como payload
         res.status(201).send({ status: "success", payload: { products } });
       }
@@ -95,7 +99,7 @@ router
     const cid = req.params.cid;
     const pid = req.params.pid;
     try {
-      const cart = await cartsManager.getById(cid);
+      const cart = await cartDao.getOne(cid);
       if (cart === undefined) {
         res
           .status(400)
@@ -104,7 +108,7 @@ router
         let products = cart.products;
         // filtro el array products para eliminar el elemento que tenga el id === pid
         products = products.filter((prod) => prod.product !== pid);
-        await cartsManager.updateOne(cid, { products });
+        await cartDao.updateOne(cid, { products });
         res.status(200).send({ status: "success", payload: { products } });
       }
     } catch (error) {

@@ -31,7 +31,7 @@ class ItemManager {
   }
 
   // uso getAll y filtro por id
-  async getById(id) {
+  async getOne(id) {
     const items = await this.getAll();
     return items.find((item) => item.id == id);
   }
@@ -53,7 +53,6 @@ class ItemManager {
   }
 
   async updateOne(id, itemData) {
-    console.log("itemData", itemData);
     // obtengo todos los items
     let items = await this.getAll();
     // con un map solo modifico el item que matchea con el id

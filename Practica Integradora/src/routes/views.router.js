@@ -14,8 +14,12 @@ router.get("/", async (req, res) => {
 });
 
 // en realtimeproducts renderizo la pagina y no le mando nada, lo obtiene por socket
-router.get("/realtimeproducts",(req,res)=>{
-  res.render("realTimeProducts")
-})
+router.get("/realtimeproducts", (req, res) => {
+  res.render("realTimeProducts");
+});
+
+router.get("/chat", (req, res) => {
+  res.render("chat");
+});
 
 export default router;

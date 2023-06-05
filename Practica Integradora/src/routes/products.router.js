@@ -5,12 +5,14 @@ import productsManager from "../database/ProductManager.js";
 // import io de sockets, el unico agregado es la funcion emitProducts
 import { io } from "../server.js";
 
+import productDao from "../dao/models/Products.DAO.js";
+
 // creo mi router
 const router = Router();
 
 // esta funcion es una que corre con el POST, PUT y DELETE para emitir por socket cada vez que hay estos cambios
 const emitProducts = async () => {
-  const products = await productsManager.getAll();
+  const products = await productDao.getAll();
   io.emit("products", products);
 };
 
@@ -18,7 +20,7 @@ router
   .get("/", async (req, res) => {
     try {
       // obtengo todos los productos
-      const allProducts = await productsManager.getAll();
+      const allProducts = await productDao.getAll();
       // obtengo el query limit
       const limit = req.query.limit;
       // si limit esta definido corto el array con ese limit, sino devuelvo todo
@@ -34,7 +36,7 @@ router
     try {
       const pid = req.params.pid;
       // obtengo el producto por id
-      const product = await productsManager.getById(pid);
+      const product = await productDao.getOne(pid);
       if (product === undefined) {
         // si el id no matchea es un error de la ruta q puso el usuario
         res
@@ -57,7 +59,7 @@ router
     // me aseguro que los campos obligatorios esten presentes
     if (title && description && code && price && stock && category) {
       try {
-        const allProducts = await productsManager.getAll();
+        const allProducts = await productDao.getAll();
         const isDuplicate = allProducts.some((prod) => prod.code == code);
         if (isDuplicate) {
           res
@@ -75,7 +77,7 @@ router
             thumbnails: thumbnails ?? [], // si no estan los thumbnails para homogeneizar mando un array vacio
           };
           // creo un nuevo producto
-          const product = await productsManager.createOne(productData);
+          const product = await productDao.createOne(productData);
           // emito los productos, no es necesario el await
           emitProducts();
           // envio el producto creado
@@ -120,7 +122,7 @@ router
         // ejemplo: quiero quitar de los publicados el producto, lo pongo en false
         if (status !== undefined) productData = { ...productData, status };
         // grabo
-        const product = await productsManager.updateOne(pid, productData);
+        const product = await productDao.updateOne(pid, productData);
         // emito los productos, no es necesario el await
         emitProducts();
         // envio mensaje de grabado
@@ -140,7 +142,7 @@ router
     const pid = req.params.pid;
     try {
       // elimino producto
-      await productsManager.deleteOne(pid);
+      await productDao.deleteOne(pid);
       // emito los productos, no es necesario el await
       emitProducts();
       res.status(200).send({ status: "success", payload: { id: pid } });

@@ -3,12 +3,13 @@ import { Router } from "express";
 // importo el productsManager
 import productsManager from "../database/ProductManager.js";
 
+import productDao from "../dao/models/Products.DAO.js";
 // creo mi router
 const router = Router();
 
 // en el root renderizo los productos que obtengo con el productsManager
 router.get("/", async (req, res) => {
-  const products = await productsManager.getAll();
+  const products = await productDao.getAll();
   res.render("index", { products });
 });
 

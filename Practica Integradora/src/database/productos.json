@@ -1,29 +1,16 @@
 [
   {
-    "title": "Pelota 1",
-    "description": "Pelota de futbol",
+    "title": "Nueva pelota",
+    "description": "Pelota modificada",
     "code": "P01",
-    "price": "10000",
-    "stock": "12",
+    "price": 15000,
+    "stock": 15,
     "status": true,
     "category": "Deportes",
     "thumbnails": [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
     ],
     "id": 1
-  },
-  {
-    "title": "Pelota 2",
-    "description": "Pelota de futbol",
-    "code": "P02",
-    "price": "10000",
-    "stock": "12",
-    "status": true,
-    "category": "Deportes",
-    "thumbnails": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
-    ],
-    "id": 2
   },
   {
     "title": "Pelota 3",
@@ -128,5 +115,44 @@
       "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
     ],
     "id": 10
+  },
+  {
+    "title": "Pelota 11",
+    "description": "Pelota de futbol",
+    "code": "P11",
+    "price": "11000",
+    "stock": "11",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 11
+  },
+  {
+    "title": "Pelota 12",
+    "description": "Pelota de futbol 12",
+    "code": "P12",
+    "price": "12000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 12
+  },
+  {
+    "title": "Nueva pelota 22",
+    "description": "Pelota modificada",
+    "code": "P22",
+    "price": 22000,
+    "stock": 22,
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 13
   }
 ]

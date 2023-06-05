@@ -12,7 +12,6 @@ const emitChat = async () => {
 };
 
 router.post("/", async (req, res) => {
-  console.log("llega")
   const { user, message } = req.body;
   if (user && message) {
     try {

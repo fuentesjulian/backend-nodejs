@@ -73,8 +73,12 @@ router
         emitProducts();
         res.status(201).send({ status: "success", payload: { product } });
       } catch (error) {
-        // si hay un error al grabar me devuelve un status 500 con el error
-        res.status(500).send({ status: "server error", error: error.message });
+        if (error.message.split("-")[0] === "client") {
+          res.status(400).send({ status: "client error", error: error.message });
+        } else {
+          // si hay un error al grabar me devuelve un status 500 con el error
+          res.status(500).send({ status: "server error", error: error.message });
+        }
       }
     } else {
       // si falta un parametro envio error

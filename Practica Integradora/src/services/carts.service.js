@@ -25,7 +25,7 @@ class CartService {
 
     // si no existe un cart o la cantidad no esta setteada devuelvo un 400
     if (cart === undefined || product === undefined) {
-      throw new Error("user-faltan parametros");
+      throw new Error("client-faltan parametros");
     } else {
       // si encuentro cart y la quantity esta definido busco los prods del cart
       let products = cart.products ?? [];
@@ -54,7 +54,7 @@ class CartService {
   async delete(cid, pid) {
     const cart = await cartDao.getOne(cid);
     if (cart === undefined) {
-      throw new Error("user-parametros incorrectos");
+      throw new Error("client-parametros incorrectos");
     } else {
       let products = cart.products;
       // filtro el array products para eliminar el elemento que tenga el id === pid

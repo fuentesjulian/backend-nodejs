@@ -40,8 +40,12 @@ router
       const products = await cartService.add(cid, pid);
       res.status(201).send({ status: "success", payload: { products } });
     } catch (error) {
-      // si tengo un error en la bd devuelvo un 500
-      res.status(500).send({ status: "server error", error: error.message });
+      if (error.message.split("-")[0] === "client") {
+        res.status(400).send({ status: "client error", error: error.message });
+      } else {
+        // si hay un error al grabar me devuelve un status 500 con el error
+        res.status(500).send({ status: "server error", error: error.message });
+      }
     }
   })
   .delete("/:cid/product/:pid", async (req, res) => {
@@ -54,8 +58,12 @@ router
       const products = await cartService.delete(cid, pid);
       res.status(200).send({ status: "success", payload: { products } });
     } catch (error) {
-      // si tengo un error al grabar o leer devuelvo un 500
-      res.status(500).send({ status: "server error", error: error.message });
+      if (error.message.split("-")[0] === "client") {
+        res.status(400).send({ status: "client error", error: error.message });
+      } else {
+        // si hay un error al grabar me devuelve un status 500 con el error
+        res.status(500).send({ status: "server error", error: error.message });
+      }
     }
   });
 

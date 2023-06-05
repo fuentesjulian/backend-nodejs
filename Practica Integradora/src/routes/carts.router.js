@@ -3,6 +3,9 @@ import { Router } from "express";
 // importo el item manager
 import ItemManager from "../database/ItemManager.js";
 
+// importo el productDato
+import productDao from "../dao/Products.DAO.js";
+
 // creo mi router
 const router = Router();
 // instancio cartsManager y el productsManager con el path
@@ -52,10 +55,12 @@ router
     try {
       // obtengo por id el cart y el producto
       const cart = await cartsManager.getById(cid);
-      const product = await productsManager.getById(pid);
+      const product = await productDao.getOne(pid);
       // si no existe un cart o la cantidad no esta setteada devuelvo un 400
       if (cart === undefined || product === undefined) {
-        res.status(400).send({ status: "client error", error: "Parametros incorrectos" });
+        res
+          .status(400)
+          .send({ status: "client error", error: "Parametros incorrectos" });
       } else {
         // si encuentro cart y la quantity esta definido busco los prods del cart
         let products = cart.products;
@@ -92,15 +97,15 @@ router
     try {
       const cart = await cartsManager.getById(cid);
       if (cart === undefined) {
-        res.status(400).send({ status: "client error", error: "Parametros incorrectos" });
+        res
+          .status(400)
+          .send({ status: "client error", error: "Parametros incorrectos" });
       } else {
         let products = cart.products;
         // filtro el array products para eliminar el elemento que tenga el id === pid
         products = products.filter((prod) => prod.product !== pid);
         await cartsManager.updateOne(cid, { products });
-        res
-          .status(200)
-          .send({ status: "success", payload: { products } });
+        res.status(200).send({ status: "success", payload: { products } });
       }
     } catch (error) {
       // si tengo un error al grabar o leer devuelvo un 500

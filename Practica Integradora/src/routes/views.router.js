@@ -3,7 +3,7 @@ import { Router } from "express";
 // importo el productsManager
 import productsManager from "../database/ProductManager.js";
 
-import productDao from "../dao/models/Products.DAO.js";
+import productDao from "../dao/Products.DAO.js";
 // creo mi router
 const router = Router();
 

@@ -2,6 +2,10 @@
 import { Server } from "socket.io";
 // importo app
 import app from "./app.js";
+// importo mongoose
+import mongoose from "mongoose";
+
+mongoose.connect("mongodb://127.0.0.1:27017/ecommerce");
 
 // creo el webserver
 const webServer = app.listen(8080, () => {
@@ -13,11 +17,12 @@ const io = new Server(webServer);
 
 // importo el productsManager
 import productsManager from "./database/ProductManager.js";
+import productDao from "./dao/Products.DAO.js";
 
 // cada vez que conecta mando los productos
 io.on("connection", async (socket) => {
-  console.log("Cliente conectado")
-  const products = await productsManager.getAll();
+  console.log("Cliente conectado");
+  const products = await productDao.getAll();
   socket.emit("products", products);
 });
 

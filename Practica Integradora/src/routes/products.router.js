@@ -1,11 +1,9 @@
 // importo el router de express
 import { Router } from "express";
-// importo el item manager
-import productsManager from "../database/ProductManager.js";
 // import io de sockets, el unico agregado es la funcion emitProducts
 import { io } from "../server.js";
 
-import productDao from "../dao/models/Products.DAO.js";
+import productDao from "../dao/Products.DAO.js";
 
 // creo mi router
 const router = Router();

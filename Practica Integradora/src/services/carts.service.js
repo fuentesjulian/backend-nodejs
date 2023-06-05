@@ -18,19 +18,18 @@ class CartService {
     return cart;
   }
 
-  async set(cid, pid) {
+  async add(cid, pid) {
     // obtengo por id el cart y el producto
     const cart = await this.cartDao.getOne(cid);
     const product = await this.productDao.getOne(pid);
-    console.log(cart);
-    console.log(product);
+
     // si no existe un cart o la cantidad no esta setteada devuelvo un 400
     if (cart === undefined || product === undefined) {
       throw new Error("user-faltan parametros");
     } else {
       // si encuentro cart y la quantity esta definido busco los prods del cart
       let products = cart.products ?? [];
-      console.log(cart);
+
       // checkeo que este en la cart el producto con el id pid
       const inCart = products?.some((prod) => prod.product == pid);
 
@@ -48,6 +47,7 @@ class CartService {
       }
       // grabo en el cart manager el carrito actualizado
       await this.cartDao.updateOne(cid, { products });
+      return products;
     }
   }
 
@@ -60,7 +60,7 @@ class CartService {
       // filtro el array products para eliminar el elemento que tenga el id === pid
       products = products.filter((prod) => prod.product !== pid);
       await this.cartDao.updateOne(cid, { products });
-      res.status(200).send({ status: "success", payload: { products } });
+      return products;
     }
   }
 }

@@ -16,7 +16,6 @@ const webServer = app.listen(8080, () => {
 const io = new Server(webServer);
 
 // importo el productsManager
-import productsManager from "./database/ProductManager.js";
 import productDao from "./dao/Products.DAO.js";
 import messagesDao from "./dao/Messages.DAO.js";
 

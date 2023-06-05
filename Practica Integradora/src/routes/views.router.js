@@ -1,8 +1,5 @@
 // importo el router de express
 import { Router } from "express";
-// importo el productsManager
-import productsManager from "../database/ProductManager.js";
-
 import productDao from "../dao/Products.DAO.js";
 // creo mi router
 const router = Router();

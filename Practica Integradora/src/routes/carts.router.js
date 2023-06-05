@@ -1,8 +1,5 @@
 // importo el router de express
 import { Router } from "express";
-// importo el item manager
-import ItemManager from "../database/ItemManager.js";
-
 // importo el productDato
 import productDao from "../dao/Products.DAO.js";
 // importo el cartDao
@@ -10,9 +7,6 @@ import cartDao from "../dao/Carts.DAO.js";
 
 // creo mi router
 const router = Router();
-// instancio cartsManager y el productsManager con el path
-const cartsManager = new ItemManager("./src/database/carrito.json");
-const productsManager = new ItemManager("./src/database/productos.json");
 
 router
   .post("/", async (req, res) => {

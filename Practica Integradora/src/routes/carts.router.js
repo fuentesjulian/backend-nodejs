@@ -50,8 +50,10 @@ router
     const pid = req.params.pid;
     try {
       // obtengo por id el cart y el producto
+
       const cart = await cartDao.getOne(cid);
       const product = await productDao.getOne(pid);
+
       // si no existe un cart o la cantidad no esta setteada devuelvo un 400
       if (cart === undefined || product === undefined) {
         res
@@ -60,10 +62,9 @@ router
       } else {
         // si encuentro cart y la quantity esta definido busco los prods del cart
         let products = cart.products ?? [];
-        console.log(cart)
         // checkeo que este en la cart el producto con el id pid
         const inCart = products?.some((prod) => prod.product == pid);
-        
+
         // si existe el producto modifico con un map el producto
         if (inCart) {
           products = products.map((prod) => {

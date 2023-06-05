@@ -4,13 +4,14 @@ import { Router } from "express";
 import { io } from "../server.js";
 
 import productDao from "../dao/Products.DAO.js";
+import productService from "../services/products.service.js";
 
 // creo mi router
 const router = Router();
 
 // esta funcion es una que corre con el POST, PUT y DELETE para emitir por socket cada vez que hay estos cambios
 const emitProducts = async () => {
-  const products = await productDao.getAll();
+  const products = await productService.getAll();
   io.emit("products", products);
 };
 
@@ -18,7 +19,7 @@ router
   .get("/", async (req, res) => {
     try {
       // obtengo todos los productos
-      const allProducts = await productDao.getAll();
+      const allProducts = await productService.getAll();
       // obtengo el query limit
       const limit = req.query.limit;
       // si limit esta definido corto el array con ese limit, sino devuelvo todo
@@ -34,7 +35,7 @@ router
     try {
       const pid = req.params.pid;
       // obtengo el producto por id
-      const product = await productDao.getOne(pid);
+      const product = await productService.getOne(pid);
       if (product === undefined) {
         // si el id no matchea es un error de la ruta q puso el usuario
         res
@@ -57,30 +58,20 @@ router
     // me aseguro que los campos obligatorios esten presentes
     if (title && description && code && price && stock && category) {
       try {
-        const allProducts = await productDao.getAll();
-        const isDuplicate = allProducts.some((prod) => prod.code == code);
-        if (isDuplicate) {
-          res
-            .status(400)
-            .send({ status: "client error", error: "Codigo duplicado" });
-        } else {
-          const productData = {
-            title,
-            description,
-            code,
-            price,
-            stock,
-            status: true, // status es true por defecto
-            category,
-            thumbnails: thumbnails ?? [], // si no estan los thumbnails para homogeneizar mando un array vacio
-          };
-          // creo un nuevo producto
-          const product = await productDao.createOne(productData);
-          // emito los productos, no es necesario el await
-          emitProducts();
-          // envio el producto creado
-          res.status(201).send({ status: "success", payload: { product } });
-        }
+        const productData = {
+          title,
+          description,
+          code,
+          price,
+          stock,
+          status: true, // status es true por defecto
+          category,
+          thumbnails: thumbnails ?? [], // si no estan los thumbnails para homogeneizar mando un array vacio
+        };
+
+        const product = await productService.createOne(productData);
+        emitProducts();
+        res.status(201).send({ status: "success", payload: { product } });
       } catch (error) {
         // si hay un error al grabar me devuelve un status 500 con el error
         res.status(500).send({ status: "server error", error: error.message });
@@ -120,7 +111,7 @@ router
         // ejemplo: quiero quitar de los publicados el producto, lo pongo en false
         if (status !== undefined) productData = { ...productData, status };
         // grabo
-        const product = await productDao.updateOne(pid, productData);
+        const product = await productService.updateOne(pid, productData);
         // emito los productos, no es necesario el await
         emitProducts();
         // envio mensaje de grabado
@@ -140,7 +131,7 @@ router
     const pid = req.params.pid;
     try {
       // elimino producto
-      await productDao.deleteOne(pid);
+      await productService.deleteOne(pid);
       // emito los productos, no es necesario el await
       emitProducts();
       res.status(200).send({ status: "success", payload: { id: pid } });

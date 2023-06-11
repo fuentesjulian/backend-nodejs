@@ -12,6 +12,6 @@ router
   .delete("/:cid/products/:pid", cartsController.removeProduct)
   .put("/:cid", cartsController.updateCart)
   .put("/:cid/products/:pid", cartsController.updateProduct)
-  .delete("/:cid", cartsController.removeProduct);
+  .delete("/:cid", cartsController.clearCart);
 
 export default router;

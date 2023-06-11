@@ -1,4 +1,5 @@
 import cartsService from "../services/carts.service.js";
+import CustomError from "../utils/CustomError.utils.js";
 
 export const createCart = async (req, res, next) => {
   try {
@@ -41,6 +42,7 @@ export const updateCart = async (req, res, next) => {
   try {
     const cid = req.params.cid;
     const { products } = req.body;
+    if (!products) throw new CustomError(400, "Faltan parametros");
     const cart = await cartsService.updateCart(cid, products);
     res.status(201).send({ status: "succes", payload: { cart } });
   } catch (error) {
@@ -52,6 +54,7 @@ export const updateProduct = async (req, res, next) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     const { quantity } = req.body;
+    if (!quantity) throw new CustomError(400, "Faltan parametros");
     const cart = await cartsService.updateProduct(cid, pid, quantity);
     res.status(201).send({ status: "succes", payload: { cart } });
   } catch (error) {

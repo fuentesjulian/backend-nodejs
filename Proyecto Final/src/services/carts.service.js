@@ -29,6 +29,16 @@ class CartsService {
     if (!product) throw new CustomError(400, "No existe el producto");
   }
 
+  async #validateProdObj(prod) {
+    if (!prod.product) return false;
+    if (!prod.quantity) return false;
+    const isValid = mongoose.Types.ObjectId.isValid(prod.product);
+    if (!isValid) return false;
+    const product = await this.Product.findById(prod.product);
+    if (!product) return false;
+    return true;
+  }
+
   async addProduct(cid, pid) {
     const cart = await this.getCart(cid);
     await this.#validateProduct(pid);
@@ -51,7 +61,6 @@ class CartsService {
 
   async removeProduct(cid, pid) {
     const cart = await this.getCart(cid);
-    await this.#validateProduct(pid);
     let products = cart.products;
     cart.products = products.filter((prod) => prod.product.toString() != pid);
     await cart.save();
@@ -60,10 +69,12 @@ class CartsService {
 
   async updateCart(cid, products) {
     const cart = await this.getCart(cid);
-    products.forEach(async (prod) => {
-      const pid = prod.product;
-      await this.#validateProduct(pid);
+    let isCartValid = true;
+    await products.forEach(async (prod) => {
+      const isProdValid = await this.#validateProdObj(prod);
+      if (!isProdValid) isCartValid = false;
     });
+    if (!isCartValid) throw new CustomError(400, "Parametros invalidos");
     cart.products = products;
     await cart.save();
     return cart;
@@ -82,7 +93,7 @@ class CartsService {
         return prod;
       });
     } else {
-      products.push({ product: pid, quantity: 1 });
+      products.push({ product: pid, quantity: quantity });
     }
     cart.products = products;
     await cart.save();
@@ -90,12 +101,11 @@ class CartsService {
   }
 
   async clearCart(cid) {
-    const cart = this.getCart(cid);
+    const cart = await this.getCart(cid);
     cart.products = [];
     await cart.save();
     return cart;
   }
-  
 }
 
 const cartsService = new CartsService();

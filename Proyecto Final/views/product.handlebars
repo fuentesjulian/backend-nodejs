@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="product">
+    <div class="left">
+      {{#if thumbnails.length}}
+        <img src="{{thumbnails.[0]}}" class="card-img-top" alt="..." />
+      {{else}}
+        <img src="https://placehold.co/200x200" class="card-img-top" alt="..." />
+      {{/if}}
+    </div>
+    <div class="right">
+        <h1>{{title}}</h1>
+        <p>Categoria: {{category}}</p>
+        <div class="id">ID <span id="id">{{_id}}</span></div>
+        <h2 class="price">$ {{price}}</h2>
+        <div class="text">
+            <p>Codigo: {{code}}</p>
+            <p>{{description}}</p>
+        </div>
+        <div class="buttons">
+            <div class="itemBtn" id="minusBtn">-</div>
+            <div class="itemQ" id="quantity">1</div>
+            <div class="itemBtn" id="plusBtn">+</div>
+        </div>
+        <div class="stock">
+            <p>Stock <span id="stock">{{stock}}</span> unidades</p>
+            <p id="inCart">Agrega a tu carrito!</p>
+        </div>
+        
+        <div class="confirm">
+            <div class="btn btn-success" id="buyBtn">Agregar</div>
+        </div>
+        <a href="/products">Segui comprando</a> 
+        <a href="/carts" id="cartUrl">Ir a carrito</a>
+    </div>
+  </div>
+</div>
+<script src="/js/product.js"></script>

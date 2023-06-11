@@ -3,6 +3,7 @@ import Product from "../models/Product.js";
 import CustomError from "../utils/CustomError.utils.js";
 import isJSON from "../utils/isJSON.utils.js";
 import asPOJO from "../utils/asPOJO.utils.js";
+import replace from "../utils/replace.utils.js";
 
 class ProductService {
   constructor() {
@@ -24,11 +25,12 @@ class ProductService {
       if (!isJSON(query)) throw new CustomError(400, "Parametros invalidos");
       query = JSON.parse(query);
     }
-    const prodData = await this.Product.paginate(query, {
+    let prodData = await this.Product.paginate(query, {
       limit: limit,
       page: page,
       sort: { price: sort },
     });
+    prodData = replace(prodData, "docs", "payload");
     return prodData;
   }
   async getById(id) {

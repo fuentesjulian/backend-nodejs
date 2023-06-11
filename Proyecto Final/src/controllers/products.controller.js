@@ -1,6 +1,6 @@
 import CustomError from "../utils/CustomError.utils.js";
 import productService from "../services/products.service.js";
-import replace from "../utils/replace.utils.js";
+
 
 export const getAll = async (req, res, next) => {
   try {
@@ -8,8 +8,7 @@ export const getAll = async (req, res, next) => {
     const sort = req.query.sort;
     const limit = req.query.limit;
     const page = req.query.page;
-    let response = await productService.getAll(query, sort, limit, page);
-    response = replace(response, "docs", "payload");
+    const response = await productService.getAll(query, sort, limit, page);
     res.status(200).send({ status: "success", ...response });
   } catch (error) {
     next(error);
@@ -31,7 +30,15 @@ export const createOne = async (req, res, next) => {
     const { title, description, code, price, stock, category, thumbnails } =
       req.body;
     if (title && description && code && price && stock && category) {
-      const prodData = {title, description, code, price, stock, category, thumbnails};
+      const prodData = {
+        title,
+        description,
+        code,
+        price,
+        stock,
+        category,
+        thumbnails,
+      };
       const product = await productService.createOne(prodData);
       res.status(201).send({ status: "success", payload: product });
     } else {
@@ -45,9 +52,26 @@ export const createOne = async (req, res, next) => {
 export const updateOne = async (req, res, next) => {
   try {
     const pid = req.params.pid;
-    const {title, description, code, price, stock, category, thumbnails, status} = req.body;
+    const {
+      title,
+      description,
+      code,
+      price,
+      stock,
+      category,
+      thumbnails,
+      status,
+    } = req.body;
     if (title && description && code && price && stock && category) {
-      let prodData = { title, description, code, price, stock, category, thumbnails: thumbnails ?? []};
+      let prodData = {
+        title,
+        description,
+        code,
+        price,
+        stock,
+        category,
+        thumbnails: thumbnails ?? [],
+      };
       // en este caso, si status es par de los campos, asumo que queremos editarlo y lo agrego
       // ejemplo: quiero quitar de los publicados el producto, lo pongo en false
       if (status !== undefined) prodData = { ...prodData, status };

@@ -30,10 +30,16 @@ class CartsService {
   }
 
   async #validateProdObj(prod) {
+    // si no existe el campo product es invalido
     if (!prod.product) return false;
+    // si no existe el campo quantity es invalido
     if (!prod.quantity) return false;
+    // si la cantidad no es un numero es invalido
+    if (isNaN(prod.quantity)) return false;
+    // si el ID no es un ID de mongo es invalido
     const isValid = mongoose.Types.ObjectId.isValid(prod.product);
     if (!isValid) return false;
+    // si el producto no existe es invalido
     const product = await this.Product.findById(prod.product);
     if (!product) return false;
     return true;

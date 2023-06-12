@@ -10,7 +10,7 @@ class ProductService {
     this.Product = Product;
   }
 
-  async getAll(query, sort, limit, page) {
+  async getAll(sort, limit, page, category, stock) {
     // si no esta definido limit, pongo 10
     // si esta definido, checkeo si es un numero
     // si no es un numero, pongo 10
@@ -21,11 +21,10 @@ class ProductService {
     // sort puede valer "asc" o "desc" si pasan otro valor no ordena
     sort = sort === "asc" ? 1 : sort === "desc" ? -1 : null;
     // transformo la query a un json
-    if (query) {
-      if (!isJSON(query)) throw new CustomError(400, "Parametros invalidos");
-      query = JSON.parse(query);
-    }
+    let query = {};
 
+    if (stock === "true") query = { stock: { $gt: 0 } };
+    if (category) query = { ...query, category: category };
     let prodData = await this.Product.paginate(query, {
       limit: limit,
       page: page,
@@ -35,18 +34,32 @@ class ProductService {
     let pagelink = `?limit=${limit}`;
     let limitlink = `?`;
     let sortlink = `?limit=${limit}`;
-    let querylink = `?limit=${limit}`;
+    let categorylink = `?limit=${limit}`;
+    let stocklink = `?limit=${limit}`;
+
     if (sort) {
       const sortStr = `&sort=${sort === 1 ? "asc" : "desc"}`;
       pagelink += sortStr;
       limitlink += sortStr;
-      querylink += sortStr;
+      categorylink += sortStr;
+      stocklink += sortStr;
     }
-    if (query) {
-      const queryString = `&query=${JSON.stringify(query)}`;
-      pagelink += queryString;
-      limitlink += queryString;
-      sortlink += queryString;
+    if (stock === "true") {
+      const stockStr = "&stock=true";
+      pagelink += stockStr;
+      limitlink += stockStr;
+      sortlink += stockStr;
+      categorylink += stockStr;
+      prodData.stock = true;
+    }
+
+    if (category) {
+      const categoryStr = `&category=${category}`;
+      pagelink += categoryStr;
+      limitlink += categoryStr;
+      sortlink += categoryStr;
+      stocklink += categoryStr;
+      prodData.category = category;
     }
     if (prodData.hasPrevPage)
       prodData.prevLink = pagelink + `&page=${prodData.page - 1}`;
@@ -55,8 +68,9 @@ class ProductService {
 
     prodData.limitLink = limitlink;
     prodData.sortLink = sortlink;
-    prodData.queryLink = querylink;
     prodData.pageLink = pagelink;
+    prodData.categoryLink = categorylink;
+    prodData.stockLink = stocklink;
     return prodData;
   }
   async getById(id) {

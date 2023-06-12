@@ -1,14 +1,14 @@
 import CustomError from "../utils/CustomError.utils.js";
 import productService from "../services/products.service.js";
 
-
 export const getAll = async (req, res, next) => {
   try {
-    const query = req.query.query;
     const sort = req.query.sort;
     const limit = req.query.limit;
     const page = req.query.page;
-    const response = await productService.getAll(query, sort, limit, page);
+    const category = req.query.category;
+    const stock = req.query.stock;
+    const response = await productService.getAll(sort, limit, page, category, stock);
     res.status(200).send({ status: "success", ...response });
   } catch (error) {
     next(error);

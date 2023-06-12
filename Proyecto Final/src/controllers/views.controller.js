@@ -5,12 +5,14 @@ import asPOJO from "../utils/asPOJO.utils.js";
 
 export const home = (req, res) => {};
 export const getAllProducts = async (req, res) => {
-  const query = req.query.query;
   const sort = req.query.sort;
   const limit = req.query.limit;
   const page = req.query.page;
-  const response = await productService.getAll(query, sort, limit, page);
+  const category = req.query.category;
+  const stock = req.query.stock;
+  const response = await productService.getAll(sort, limit, page, category, stock);
   const respObj = asPOJO(response);
+  console.log(respObj)
   res.render("products", { response: respObj });
 };
 export const getOneProduct = async (req, res) => {

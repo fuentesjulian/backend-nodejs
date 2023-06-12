@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema({
   category: { type: String, required: true },
   description: { type: String, required: true },
   thumbnails: { type: [String] },
+  status: { type: Boolean, default: true },
 });
 
 productSchema.plugin(mongoosePaginate);

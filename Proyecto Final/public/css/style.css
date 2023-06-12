@@ -27,7 +27,7 @@
 }
 .product .right p {
   height: 0.5rem;
- }
+}
 
 .product .right .text p {
   font-size: small;
@@ -102,9 +102,23 @@
 .cartItem .image img {
   width: 100%;
 }
-#pagination{
+#pagination {
   display: flex;
   margin-top: 1rem;
+  justify-content: center;
 }
 
+#newProduct {
+  margin-top: 1rem;
+  max-width: 40rem;
+}
 
+.prodsContainer {
+  display: grid;
+  grid-template-columns: 10% 90%;
+}
+
+.prodsLeft{
+  padding-top: 1rem;
+  padding-left: 0.5rem ;
+}

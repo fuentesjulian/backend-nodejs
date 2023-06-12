@@ -19,11 +19,11 @@ const handleCart = async () => {
   const inCart = cart.products.find((prod) => prod.product === prodId);
   if (inCart) {
     quantity.innerText = inCart.quantity;
-    inCartStr.innerText = `${inCart.quantity} en carrito`;
+    inCartStr.innerText = `${inCart.quantity} in cart`;
     delBtn.style.display = "inline"
   } else {
     quantity.innerText = 1;
-    inCartStr.innerText = "Agrega a tu carrito!"
+    inCartStr.innerText = "Purchase now!"
     delBtn.style.display = "none"
   }
   cartUrl.href = `http://localhost:8080/carts/${cart.id}`;

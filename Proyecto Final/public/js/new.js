@@ -20,11 +20,12 @@ productForm.addEventListener("submit", (e) => {
     .then((data) => data.json())
     .then((json) => {
       // capto los errores
-      if (json.status === "client error" || json.status === "server error") {
-        alert(json.error);
+
+      if (json.status === "error") {
+        alert("Error: " + json.payload);
       } else {
         productForm.reset();
-        alert("Producto agregado");
+        alert("Product added");
       }
     });
 });

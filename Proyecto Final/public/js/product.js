@@ -20,14 +20,15 @@ const handleCart = async () => {
   if (inCart) {
     quantity.innerText = inCart.quantity;
     inCartStr.innerText = `${inCart.quantity} in cart`;
-    delBtn.style.display = "inline"
+    delBtn.style.display = "inline";
   } else {
     quantity.innerText = 1;
-    inCartStr.innerText = "Purchase now!"
-    delBtn.style.display = "none"
+    inCartStr.innerText = "Purchase now!";
+    delBtn.style.display = "none";
   }
   cartUrl.href = `http://localhost:8080/carts/${cart.id}`;
   navCartUrl.href = `http://localhost:8080/carts/${cart.id}`;
+  if (stock === 0) buyBtn.className = buyBtn.className + " disabled";
 };
 
 const getCart = async (cid) => {

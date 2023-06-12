@@ -1,11 +1,21 @@
-<div class="container">
-  <h1>Cart ID {{cart._id}}</h1>
-  {{#each cart.products}}
-    <div class="cartItem">
+<div class="container" id="cartInfo">
+  {{#if cart.products.length}}
+    <h1>Cart ID {{cart._id}}</h1>
+    {{#each cart.products}}
+      <div class="cartItem" id="cart-{{this.product._id}}">
       <div class="image"><img src="{{this.product.thumbnails.[0]}}" /></div>
       <div class="title">{{this.product.title}}</div>
       <div class="price">$ {{this.product.price}}</div>
-      <div class="quantity">{{this.quantity}} un</div>
-    </div>
-  {{/each}}
+      <div class="quantity">
+        <div class="buttons">
+          <div class="itemBtn" id="minusBtn" onclick="substractOne('{{this.product._id}}')">-</div>
+          <div class="itemQ" id="quantity-{{this.product._id}}">{{this.quantity}}</div>
+          <div class="itemBtn" id="plusBtn" onclick="addOne('{{this.product._id}}')">+</div>
+        </div>
+      </div>
+      <div class="remove" onclick="removeProd('{{this.product._id}}')">[Remove]</div>
+      </div>
+    {{/each}}
+  {{/if}}
 </div>
+<script src="/js/cart.js"></script>

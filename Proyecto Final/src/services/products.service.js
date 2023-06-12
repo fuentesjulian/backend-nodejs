@@ -25,12 +25,38 @@ class ProductService {
       if (!isJSON(query)) throw new CustomError(400, "Parametros invalidos");
       query = JSON.parse(query);
     }
+
     let prodData = await this.Product.paginate(query, {
       limit: limit,
       page: page,
-      sort: { price: sort },
+      sort: sort ? { price: sort } : false,
     });
     prodData = replace(prodData, "docs", "payload");
+    let pagelink = `?limit=${limit}`;
+    let limitlink = `?`;
+    let sortlink = `?limit=${limit}`;
+    let querylink = `?limit=${limit}`;
+    if (sort) {
+      const sortStr = `&sort=${sort === 1 ? "asc" : "desc"}`;
+      pagelink += sortStr;
+      limitlink += sortStr;
+      querylink += sortStr;
+    }
+    if (query) {
+      const queryString = `&query=${JSON.stringify(query)}`;
+      pagelink += queryString;
+      limitlink += queryString;
+      sortlink += queryString;
+    }
+    if (prodData.hasPrevPage)
+      prodData.prevLink = pagelink + `&page=${prodData.page - 1}`;
+    if (prodData.hasNextPage)
+      prodData.nextLink = pagelink + `&page=${prodData.page + 1}`;
+
+    prodData.limitLink = limitlink;
+    prodData.sortLink = sortlink;
+    prodData.queryLink = querylink;
+    prodData.pageLink = pagelink;
     return prodData;
   }
   async getById(id) {

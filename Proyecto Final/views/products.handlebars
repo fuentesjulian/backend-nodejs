@@ -1,3 +1,64 @@
+<nav id="pagination" aria-label="producst pagination">
+
+
+<div class="dropdown">
+  <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Ver
+  </a>
+
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="http://localhost:8080/products/{{response.limitLink}}&limit=4">4</a></li>
+    <li><a class="dropdown-item" href="http://localhost:8080/products/{{response.limitLink}}&limit=8">8</a></li>
+    <li><a class="dropdown-item" href="http://localhost:8080/products/{{response.limitLink}}&limit=10">10</a></li>
+  </ul>
+</div>
+
+<div class="dropdown">
+  <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Ordenar
+  </a>
+
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="http://localhost:8080/products/{{response.sortLink}}">No ordenar</a></li>
+    <li><a class="dropdown-item" href="http://localhost:8080/products/{{response.sortLink}}&sort=asc">Precio (mas barato)</a></li>
+    <li><a class="dropdown-item" href="http://localhost:8080/products/{{response.sortLink}}&sort=desc">Precio (mas caro)</a></li>
+  </ul>
+</div>
+
+
+  <ul class="pagination">
+    {{#if response.hasPrevPage}}
+    <li class="page-item">
+      <a class="page-link" href="http://localhost:8080/products/{{response.prevLink}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+      </li>
+    <li class="page-item"><a class="page-link" href="http://localhost:8080/products/{{response.prevLink}}">{{response.prevPage}}</a></li>
+    {{else}}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {{/if}} 
+    <li class="page-item disabled"><a class="page-link" href="#">{{response.page}}</a></li>
+    {{#if response.hasNextPage}}
+    <li class="page-item"><a class="page-link" href="http://localhost:8080/products/{{response.nextLink}}">{{response.nextPage}}</a></li>
+    <li class="page-item">
+      <a class="page-link" href="http://localhost:8080/products/{{response.nextLink}}" aria-label="Next">
+       <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {{else}}
+    <li class="page-item disabled">
+      <a class="page-link" href="#" aria-label="Next">
+       <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {{/if}}
+
+  </ul>
+</nav>
 <div class="container" id="products">
   {{#each response.payload}}
     <div class="card" style="width: 15rem;" onclick="redirect('{{this._id}}')">

@@ -9,6 +9,7 @@ const prodId = document.getElementById("id").innerText;
 const inCartStr = document.getElementById("inCart");
 const cartUrl = document.getElementById("cartUrl");
 const navCartUrl = document.getElementById("navCartUrl");
+const delBtn = document.getElementById("delBtn");
 
 const handleCart = async () => {
   let cartId = localStorage.getItem("cartId");
@@ -19,6 +20,11 @@ const handleCart = async () => {
   if (inCart) {
     quantity.innerText = inCart.quantity;
     inCartStr.innerText = `${inCart.quantity} en carrito`;
+    delBtn.style.display = "inline"
+  } else {
+    quantity.innerText = 1;
+    inCartStr.innerText = "Agrega a tu carrito!"
+    delBtn.style.display = "none"
   }
   cartUrl.href = `http://localhost:8080/carts/${cart.id}`;
   navCartUrl.href = `http://localhost:8080/carts/${cart.id}`;
@@ -48,12 +54,8 @@ const createCart = async () => {
   return cart;
 };
 
-const buy = async () => {
+const addProd = async () => {
   const qty = parseInt(quantity.innerText);
-  console.log(cart.id);
-  console.log(prodId);
-  console.log(qty);
-  console.log(`http://localhost:8080/api/carts/${cart.id}/products/${prodId}`);
   const response = await fetch(
     `http://localhost:8080/api/carts/${cart.id}/products/${prodId}`,
     {
@@ -63,7 +65,16 @@ const buy = async () => {
     }
   );
   const json = await response.json();
-  console.log(json);
+  handleCart();
+};
+
+const removeProd = async () => {
+  const response = await fetch(
+    `http://localhost:8080/api/carts/${cart.id}/products/${prodId}`,
+    {
+      method: "DELETE",
+    }
+  );
   handleCart();
 };
 
@@ -83,7 +94,11 @@ plusBtn.onclick = () => {
 };
 
 buyBtn.onclick = () => {
-  buy();
+  addProd();
+};
+
+delBtn.onclick = () => {
+  removeProd();
 };
 
 window.onload = handleCart;

@@ -3,6 +3,11 @@ import Cart from "../models/Cart.js";
 import Product from "../models/Product.js";
 import CustomError from "../utils/CustomError.utils.js";
 
+
+// la innovacion grande de este codigo vs entrega anterior es que 
+// estoy usando mongoDB
+// estoy arrojando errores custom
+
 class CartsService {
   constructor() {
     this.Cart = Cart;

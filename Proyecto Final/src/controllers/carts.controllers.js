@@ -1,6 +1,11 @@
 import cartsService from "../services/carts.service.js";
 import CustomError from "../utils/CustomError.utils.js";
 
+
+// en todos estos casos estoy catcheando los errores
+// tengo un middleware que despues distribuye las respuestas
+// la respuesta es en funcion a si el error es uno custom hecho por mi (con status code)
+// o uno que arroja el server (status 500 internal server error digamos)
 export const createCart = async (req, res, next) => {
   try {
     const cart = await cartsService.createCart();

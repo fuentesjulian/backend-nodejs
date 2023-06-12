@@ -31,6 +31,9 @@ class ProductService {
       sort: sort ? { price: sort } : false,
     });
     prodData = replace(prodData, "docs", "payload");
+
+    // todos estos links autogenerados me sirven para paginar
+    // y mantener las condiciones de filtros para paginar
     let pagelink = `?limit=${limit}`;
     let limitlink = `?`;
     let sortlink = `?limit=${limit}`;

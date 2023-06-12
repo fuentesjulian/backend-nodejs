@@ -1,6 +1,10 @@
 import CustomError from "../utils/CustomError.utils.js";
 import productService from "../services/products.service.js";
 
+
+// misma logica que el carts controller, uso en error handler de middleware al final
+// por eso todos los errores catcheados van a next
+
 export const getAll = async (req, res, next) => {
   try {
     const sort = req.query.sort;

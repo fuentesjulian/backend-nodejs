@@ -6,12 +6,12 @@ import * as cartsController from "../controllers/carts.controllers.js";
 const router = Router();
 
 router
-  .post("/", cartsController.createCart)
-  .get("/:cid", cartsController.getCart)
-  .post("/:cid/products/:pid", cartsController.addProduct)
-  .delete("/:cid/products/:pid", cartsController.removeProduct)
-  .put("/:cid", cartsController.updateCart)
-  .put("/:cid/products/:pid", cartsController.updateProduct)
-  .delete("/:cid", cartsController.clearCart);
+  .post("/", cartsController.createCart) // crear una cart
+  .get("/:cid", cartsController.getCart) // obtener cart por id
+  .post("/:cid/products/:pid", cartsController.addProduct) // agregar un prod a una cart
+  .delete("/:cid/products/:pid", cartsController.removeProduct) // eliminar prod de una cart
+  .put("/:cid", cartsController.updateCart) // actualizar cart con un json
+  .put("/:cid/products/:pid", cartsController.updateProduct) // actualizar cantidad de un producto
+  .delete("/:cid", cartsController.clearCart); // limpiar cart
 
 export default router;

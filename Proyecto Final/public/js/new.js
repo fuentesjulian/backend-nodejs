@@ -20,7 +20,6 @@ productForm.addEventListener("submit", (e) => {
     .then((data) => data.json())
     .then((json) => {
       // capto los errores
-
       if (json.status === "error") {
         alert("Error: " + json.payload);
       } else {

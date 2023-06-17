@@ -22,7 +22,8 @@ router.get("/realtimeproducts", isAuth, (req, res) => {
 });
 
 router.get("/chat", (req, res) => {
-  res.render("chat");
+  const { user } = req.session;
+  res.render("chat", { user });
 });
 
 router.get("/register", isGuest, (req, res) => {

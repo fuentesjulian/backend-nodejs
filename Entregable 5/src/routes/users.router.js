@@ -26,13 +26,12 @@ usersRouter
       const user = await userService.geyByEmail(email);
       if (!user) throw new Error("noauth");
       if (user.password !== password) throw new Error("noauth");
-      req.session.user = user;
+      let userObj = JSON.parse(JSON.stringify(user));
+      delete userObj.password
+      req.session.user = userObj;
       res.redirect("/");
     } catch (error) {
-      if (
-        error.message === "missing" ||
-        error.message === "noauth"
-      ) {
+      if (error.message === "missing" || error.message === "noauth") {
         res.redirect(`/login?error=${error.message}`);
       } else {
         res.redirect(`/login?error=internal`);

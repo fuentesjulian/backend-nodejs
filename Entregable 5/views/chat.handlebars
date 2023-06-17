@@ -3,7 +3,7 @@
     <form method="POST" id="productForm"> 
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">email</label>
-            <input type="email" name="user" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+            <input type="email" name="user" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" {{#if user}}value="{{user.email}}" disabled {{/if}}>
         </div>
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">Texto</label>

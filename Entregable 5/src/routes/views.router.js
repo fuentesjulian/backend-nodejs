@@ -19,4 +19,8 @@ router.get("/chat", (req, res) => {
   res.render("chat");
 });
 
+router.get("/register", (req, res) => {
+  res.render("register");
+});
+
 export default router;

@@ -1,13 +1,20 @@
 // importo express
 import express from "express";
-// importo el carts y el products router
+
+// importo el cookie parser
+import cookieParser from "cookie-parser";
+import MongoStore from "connect-mongo";
+import session from "express-session";
+
+// importo handlebars
+import handlebars from "express-handlebars";
+
+// importo los routers
 import cartsRouter from "./routes/carts.router.js";
 import productsRouter from "./routes/products.router.js";
 import viewsRouter from "./routes/views.router.js";
 import messagesRouter from "./routes/messages.router.js";
-
-// importo handlebars
-import handlebars from "express-handlebars";
+import usersRouter from "./routes/users.router.js";
 
 // declaro mi app
 const app = express();
@@ -16,6 +23,24 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// middleware para cookie parser
+app.use(cookieParser("secret"));
+
+// session
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: "mongodb://127.0.0.1:27017/ecommerce",
+      mongoOptions: {
+        useNewUrlParser: true,
+      },
+      ttl: 600,
+    }),
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 // setteo el engine
 app.engine("handlebars", handlebars.engine());
 
@@ -30,6 +55,7 @@ app.set("view engine", "handlebars");
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/messages", messagesRouter);
+app.use("/api/users", usersRouter);
 app.use("/", viewsRouter);
 // exporto la app
 export default app;

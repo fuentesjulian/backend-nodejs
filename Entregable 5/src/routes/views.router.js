@@ -26,7 +26,18 @@ router.get("/chat", (req, res) => {
 });
 
 router.get("/register", isGuest, (req, res) => {
-  res.render("register");
+  const errorQuery = req.query.error;
+  const success = req.query.success === "true" ? true : false;
+  const error =
+    errorQuery === "missing"
+      ? "email and password are required"
+      : errorQuery === "duplicate"
+      ? "user already exists"
+      : errorQuery === "internal"
+      ? "internal server error, try later"
+      : null;
+
+  res.render("register", { error, success });
 });
 
 router.get("/login", isGuest, (req, res) => {

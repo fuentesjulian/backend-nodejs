@@ -1,5 +1,8 @@
 <h1>Register form</h1>
 <div class="container">
+    {{#if success}}
+    <p>User registered successfully. <a href="/login">Login</a></p>
+    {{else}}
     <form action='/api/users' method="post" >
         <div class="row mb-3">
             <label for="email" class="col-sm-2 col-form-label">Email</label>
@@ -39,4 +42,11 @@
         </div>         
         <button type="submit" class="btn btn-primary">Register</button>  
     </form>
+    {{/if}}
+    {{#if error}}
+        <div class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+    {{/if}}
 </div>
+

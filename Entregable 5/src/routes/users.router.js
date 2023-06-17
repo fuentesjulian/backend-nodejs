@@ -19,6 +19,8 @@ usersRouter
       if (!email || !password) throw new Error("Invalid data");
       const user = await userService.geyByEmail(email);
       if (!user) throw new Error("User doesnt exist");
+      if (user.password !== password) throw new Error('Invalid data');
+      
       req.session.user = user;
       res.redirect("/");
     } catch (error) {

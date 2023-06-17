@@ -18,7 +18,6 @@ router.get("/", async (req, res) => {
 // en realtimeproducts renderizo la pagina y no le mando nada, lo obtiene por socket
 router.get("/realtimeproducts", isAuth, (req, res) => {
   const { user } = req.session;
-  
   res.render("realTimeProducts", { user });
 });
 

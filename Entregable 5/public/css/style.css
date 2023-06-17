@@ -1,8 +1,13 @@
-#products{
-    display: flex;
-    flex-wrap: wrap;
+#products {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-#products .card{
-    margin: 1rem;
+#products .card {
+  margin: 1rem;
+}
+
+#logout-btn {
+  padding: 0;
+  font-weight: bold;
 }

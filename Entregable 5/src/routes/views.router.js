@@ -54,4 +54,9 @@ router.get("/login", isGuest, (req, res) => {
   res.render("login", { error });
 });
 
+router.get("/profile", isAuth, (req, res) => {
+  const { user } = req.session;
+  res.render("profile", { user });
+});
+
 export default router;

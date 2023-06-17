@@ -15,4 +15,9 @@
         </div>  
         <button type="submit" class="btn btn-primary">Login</button>  
     </form>
+    {{#if error}}
+        <div class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+    {{/if}}
 </div>

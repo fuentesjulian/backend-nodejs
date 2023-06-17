@@ -41,7 +41,16 @@ router.get("/register", isGuest, (req, res) => {
 });
 
 router.get("/login", isGuest, (req, res) => {
-  res.render("login");
+  const errorQuery = req.query.error;
+  const error =
+    errorQuery === "missing"
+      ? "email and password are required"
+      : errorQuery === "noauth"
+      ? "invalid credentials"
+      : errorQuery === "internal"
+      ? "internal server error, try later"
+      : null;
+  res.render("login", { error });
 });
 
 export default router;

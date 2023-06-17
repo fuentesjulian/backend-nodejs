@@ -22,15 +22,21 @@ usersRouter
   .post("/auth", async (req, res) => {
     try {
       const { email, password } = req.body;
-      if (!email || !password) throw new Error("Invalid data");
+      if (!email || !password) throw new Error("missing");
       const user = await userService.geyByEmail(email);
-      if (!user) throw new Error("User doesnt exist");
-      if (user.password !== password) throw new Error("Invalid data");
-
+      if (!user) throw new Error("noauth");
+      if (user.password !== password) throw new Error("noauth");
       req.session.user = user;
       res.redirect("/");
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      if (
+        error.message === "missing" ||
+        error.message === "noauth"
+      ) {
+        res.redirect(`/login?error=${error.message}`);
+      } else {
+        res.redirect(`/login?error=internal`);
+      }
     }
   })
   .post("/logout", async (req, res) => {

@@ -27,7 +27,12 @@ usersRouter
       if (!user) throw new Error("noauth");
       if (user.password !== password) throw new Error("noauth");
       let userObj = JSON.parse(JSON.stringify(user));
-      delete userObj.password
+      if (
+        userObj.email === "adminCoder@coder.com" &&
+        userObj.password === "adminCod3r123"
+      )
+        userObj.role = "admin";
+      delete userObj.password;
       req.session.user = userObj;
       res.redirect("/");
     } catch (error) {

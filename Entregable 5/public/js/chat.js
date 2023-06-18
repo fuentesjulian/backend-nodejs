@@ -13,12 +13,14 @@ socket.on("messages", (messages) => {
 });
 
 const productForm = document.getElementById("productForm");
+const email = document.getElementById("user");
 
 productForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(productForm);
   let dataObj = {};
   formData.forEach((val, key) => (dataObj[key] = val));
+  dataObj.user = user.value;
   fetch("http://localhost:8080/api/messages", {
     method: "POST",
     headers: {

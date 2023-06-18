@@ -9,7 +9,7 @@ const redirect = () => {
     loginForm.innerHTML = `<div>Login successful... redirecting!!!</div>`;
   setTimeout(() => {
     window.location.href = "/";
-  }, 3000);
+  }, 2000);
 };
 
 const handleLogin = async (e) => {

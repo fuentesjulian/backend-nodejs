@@ -19,10 +19,10 @@ usersRouter
   .post("/auth", async (req, res) => {
     try {
       const { email, password } = req.body;
-      if (!email || !password) throw new Error("missing");
+      if (!email || !password) throw new Error("user and email are required");
       const user = await userService.geyByEmail(email);
-      if (!user) throw new Error("noauth");
-      if (user.password !== password) throw new Error("noauth");
+      if (!user) throw new Error("invalid credentials");
+      if (user.password !== password) throw new Error("invalid credentials");
       let userObj = JSON.parse(JSON.stringify(user));
       if (
         userObj.email === "adminCoder@coder.com" &&
@@ -31,13 +31,9 @@ usersRouter
         userObj.role = "admin";
       delete userObj.password;
       req.session.user = userObj;
-      res.redirect("/");
+      res.status(201).send({ status: "success" });
     } catch (error) {
-      if (error.message === "missing" || error.message === "noauth") {
-        res.redirect(`/login?error=${error.message}`);
-      } else {
-        res.redirect(`/login?error=internal`);
-      }
+      res.status(400).send({ status: "error", payload: error.message });
     }
   })
   .post("/logout", async (req, res) => {

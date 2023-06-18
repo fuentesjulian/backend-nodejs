@@ -1,6 +1,6 @@
 <h1>Login</h1>
 <div class="container">
-    <form action='/api/users/auth' method="post" >
+    <form action='/api/users/auth' method="post" id="loginForm" >
         <div class="row mb-3">
             <label for="email" class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-10">
@@ -14,11 +14,10 @@
             </div>
         </div>  
         <button type="submit" class="btn btn-primary">Login</button>  
+        <p>Not a member? <a href="/register">Register!</a></p>
     </form>
-    <p>Not a member? <a href="/register">Register!</a></p>
-    {{#if error}}
-        <div class="alert alert-danger" role="alert">
-            {{error}}
-        </div>
-    {{/if}}
+    
+    <div id="error"></div>
 </div>
+
+<script src="/js/login.js"></script>

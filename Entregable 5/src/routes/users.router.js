@@ -8,15 +8,12 @@ usersRouter
     try {
       const userData = req.body;
       const { email, password, first_name, last_name, age, img } = req.body;
-      if (!email || !password) throw new Error("missing");
+      if (!email || !password)
+        throw new Error("email and password are required");
       const newUser = await userService.createUser(userData);
-      res.redirect(`/register?success=true`);
+      res.status(201).send({ status: "success" });
     } catch (error) {
-      if (error.message === "missing" || error.message === "duplicate") {
-        res.redirect(`/register?error=${error.message}`);
-      } else {
-        res.redirect(`/register?error=internal`);
-      }
+      res.status(400).send({ status: "error", payload: error.message });
     }
   })
   .post("/auth", async (req, res) => {

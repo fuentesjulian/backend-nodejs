@@ -12,7 +12,7 @@ class UserService {
   }
   async createUser(userData) {
     const userExists = await this.model.findOne({ email: userData.email });
-    if (userExists) throw new Error("duplicate");
+    if (userExists) throw new Error("user already exists");
     return await this.model.create(userData);
   }
 }

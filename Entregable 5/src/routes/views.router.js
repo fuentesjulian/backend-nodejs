@@ -27,31 +27,12 @@ router.get("/chat", (req, res) => {
 });
 
 router.get("/register", isGuest, (req, res) => {
-  const errorQuery = req.query.error;
-  const success = req.query.success === "true" ? true : false;
-  const error =
-    errorQuery === "missing"
-      ? "email and password are required"
-      : errorQuery === "duplicate"
-      ? "user already exists"
-      : errorQuery === "internal"
-      ? "internal server error, try later"
-      : null;
-
-  res.render("register", { error, success });
+ 
+  res.render("register");
 });
 
 router.get("/login", isGuest, (req, res) => {
-  const errorQuery = req.query.error;
-  const error =
-    errorQuery === "missing"
-      ? "email and password are required"
-      : errorQuery === "noauth"
-      ? "invalid credentials"
-      : errorQuery === "internal"
-      ? "internal server error, try later"
-      : null;
-  res.render("login", { error });
+    res.render("login");
 });
 
 router.get("/profile", isAuth, (req, res) => {

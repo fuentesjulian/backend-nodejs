@@ -1,0 +1,158 @@
+[
+  {
+    "title": "Nueva pelota",
+    "description": "Pelota modificada",
+    "code": "P01",
+    "price": 15000,
+    "stock": 15,
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 1
+  },
+  {
+    "title": "Pelota 3",
+    "description": "Pelota de futbol",
+    "code": "P03",
+    "price": "10000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 3
+  },
+  {
+    "title": "Pelota 4",
+    "description": "Pelota de futbol",
+    "code": "P04",
+    "price": "10000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 4
+  },
+  {
+    "title": "Pelota 5",
+    "description": "Pelota de futbol",
+    "code": "P05",
+    "price": "10000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 5
+  },
+  {
+    "title": "Pelota 6",
+    "description": "Pelota de futbol",
+    "code": "P06",
+    "price": "10000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 6
+  },
+  {
+    "title": "Pelota 7",
+    "description": "Pelota de futbol",
+    "code": "P07",
+    "price": "10000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 7
+  },
+  {
+    "title": "Pelota 8",
+    "description": "Pelota de futbol",
+    "code": "P08",
+    "price": "10000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 8
+  },
+  {
+    "title": "Pelota 9",
+    "description": "Pelota de futbol",
+    "code": "P09",
+    "price": "10000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 9
+  },
+  {
+    "title": "Pelota 10",
+    "description": "Pelota de futbol",
+    "code": "P10",
+    "price": "10000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 10
+  },
+  {
+    "title": "Pelota 11",
+    "description": "Pelota de futbol",
+    "code": "P11",
+    "price": "11000",
+    "stock": "11",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 11
+  },
+  {
+    "title": "Pelota 12",
+    "description": "Pelota de futbol 12",
+    "code": "P12",
+    "price": "12000",
+    "stock": "12",
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 12
+  },
+  {
+    "title": "Nueva pelota 22",
+    "description": "Pelota modificada",
+    "code": "P22",
+    "price": 22000,
+    "stock": 22,
+    "status": true,
+    "category": "Deportes",
+    "thumbnails": [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Al-Rihla_%28cropped%29.jpg/800px-Al-Rihla_%28cropped%29.jpg"
+    ],
+    "id": 13
+  }
+]

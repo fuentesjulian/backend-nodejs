@@ -1,0 +1,19 @@
+<h1>Chat</h1>
+<div class="container">
+    <form method="POST" id="productForm"> 
+        <div class="mb-3">
+            <label for="user" class="form-label">email</label>
+            <input type="email" name="user" class="form-control" id="user" placeholder="name@example.com" {{#if user}}value="{{user.email}}" disabled {{/if}}>
+        </div>
+        <div class="mb-3">
+            <label for="message" class="form-label">Texto</label>
+            <textarea class="form-control" id="message" rows="3" name="message"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+<div id="chat"></div>
+<!-- script de Socket.io -->
+<script src="/socket.io/socket.io.js"></script>
+<!-- script para manejar los emits y renderizar -->
+<script src="/js/chat.js"></script>

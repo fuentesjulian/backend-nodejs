@@ -7,9 +7,14 @@ class UserService {
   async getAll() {
     return await this.model.find();
   }
-  async geyByEmail(email) {
+  async getByEmail(email) {
     return await this.model.findOne({ email });
   }
+
+  async getById(id) {
+    return await this.model.findById(id);
+  }
+
   async createUser(userData) {
     const userExists = await this.model.findOne({ email: userData.email });
     if (userExists) throw new Error("user already exists");

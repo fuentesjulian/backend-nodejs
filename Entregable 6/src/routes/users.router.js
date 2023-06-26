@@ -1,40 +1,45 @@
 import { Router } from "express";
 import userService from "../services/user.service.js";
+import passport from "passport";
+import asPOJO from "../utils/asPOJO.utils.js";
 
 const usersRouter = Router();
 
 usersRouter
-  .post("/", async (req, res) => {
-    try {
-      const userData = req.body;
-      const { email, password, first_name, last_name, age, img } = req.body;
-      if (!email || !password)
-        throw new Error("email and password are required");
-      const newUser = await userService.createUser(userData);
-      res.status(201).send({ status: "success" });
-    } catch (error) {
-      res.status(400).send({ status: "error", payload: error.message });
+  .post(
+    "/",
+    passport.authenticate("register", {
+      failureRedirect: "/api/users/failregister",
+    }),
+    async (req, res) => {
+      let user = asPOJO(req.user);
+      delete user.password;
+      delete user.__v;
+      req.session.user = user;
+      res.status(201).send({ status: "success", payload: "User registered" });
     }
+  )
+  .get("/failregister", (req, res) => {
+    
+    res.status(400).send({ status: "error", payload: "User already exists" });
   })
-  .post("/auth", async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      if (!email || !password) throw new Error("user and email are required");
-      const user = await userService.geyByEmail(email);
-      if (!user) throw new Error("invalid credentials");
-      if (user.password !== password) throw new Error("invalid credentials");
-      let userObj = JSON.parse(JSON.stringify(user));
-      if (
-        userObj.email === "adminCoder@coder.com" &&
-        userObj.password === "adminCod3r123"
-      )
-        userObj.role = "admin";
-      delete userObj.password;
-      req.session.user = userObj;
-      res.status(201).send({ status: "success" });
-    } catch (error) {
-      res.status(400).send({ status: "error", payload: error.message });
+  .post(
+    "/auth",
+    passport.authenticate("login", { failureRedirect: "/api/users/failauth" }),
+    (req, res) => {
+      if (!req.user)
+        return res
+          .status(400)
+          .send({ status: "error", payload: "Cannot authenticate" });
+      let user = asPOJO(req.user);
+      delete user.password;
+      delete user.__v;
+      req.session.user = user;
+      res.status(201).send({ status: "success", payload: "User logged in" });
     }
+  )
+  .get("/failauth", (req, res) => {
+    res.status(400).send({ status: "error", payload: "Cannot authenticate" });
   })
   .post("/logout", async (req, res) => {
     req.session.destroy();

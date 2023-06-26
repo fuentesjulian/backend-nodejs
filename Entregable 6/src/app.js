@@ -3,8 +3,11 @@ import express from "express";
 
 // importo el cookie parser
 import cookieParser from "cookie-parser";
+// importo mongostore, session y passport
 import MongoStore from "connect-mongo";
 import session from "express-session";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 // importo handlebars
 import handlebars from "express-handlebars";
@@ -41,6 +44,11 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 // setteo el engine
 app.engine("handlebars", handlebars.engine());
 

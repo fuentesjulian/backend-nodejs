@@ -1,8 +1,11 @@
 const registerForm = document.getElementById("registerForm");
 const errorHtml = document.getElementById("error");
 
-const renderSuccess = () => {
-  registerForm.innerHTML = `<div>Signup successfull. <a href="/login">Login</a></div>`;
+const redirect = () => {
+  registerForm.innerHTML = `<div>Register successful... redirecting!!!</div>`;
+  setTimeout(() => {
+    window.location.href = "/";
+  }, 2000);
 };
 
 const renderError = (error) => {
@@ -24,7 +27,7 @@ const handleSignup = async (e) => {
     body: JSON.stringify(dataObj),
   });
   const json = await data.json();
-  if (json.status === "success") renderSuccess();
+  if (json.status === "success") redirect();
   if (json.status === "error") renderError(json.payload);
 };
 

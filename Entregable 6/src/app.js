@@ -1,6 +1,9 @@
 // importo express
 import express from "express";
 
+// importo dotenv
+import dotenv from "dotenv";
+
 // importo el cookie parser
 import cookieParser from "cookie-parser";
 // importo mongostore, session y passport
@@ -19,6 +22,8 @@ import viewsRouter from "./routes/views.router.js";
 import messagesRouter from "./routes/messages.router.js";
 import usersRouter from "./routes/users.router.js";
 import githubRouter from "./routes/github.router.js";
+
+dotenv.config();
 // declaro mi app
 const app = express();
 
@@ -33,7 +38,7 @@ app.use(cookieParser("secret"));
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: "mongodb://127.0.0.1:27017/ecommerce",
+      mongoUrl: process.env.MONGO_URL,
       mongoOptions: {
         useNewUrlParser: true,
       },

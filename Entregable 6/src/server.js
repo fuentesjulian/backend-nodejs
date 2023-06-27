@@ -5,7 +5,10 @@ import app from "./app.js";
 // importo mongoose
 import mongoose from "mongoose";
 
-mongoose.connect("mongodb://127.0.0.1:27017/ecommerce");
+import dotenv from "dotenv";
+dotenv.config();
+
+mongoose.connect(process.env.MONGO_URL);
 
 // creo el webserver
 const webServer = app.listen(8080, () => {

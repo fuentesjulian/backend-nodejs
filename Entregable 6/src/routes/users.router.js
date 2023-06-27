@@ -12,10 +12,6 @@ usersRouter
       failureRedirect: "/api/users/failregister",
     }),
     async (req, res) => {
-      let user = asPOJO(req.user);
-      delete user.password;
-      delete user.__v;
-      req.session.user = user;
       res.status(201).send({ status: "success", payload: "User registered" });
     }
   )
@@ -31,10 +27,6 @@ usersRouter
         return res
           .status(400)
           .send({ status: "error", payload: "Cannot authenticate" });
-      let user = asPOJO(req.user);
-      delete user.password;
-      delete user.__v;
-      req.session.user = user;
       res.status(201).send({ status: "success", payload: "User logged in" });
     }
   )

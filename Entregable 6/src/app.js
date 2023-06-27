@@ -18,7 +18,7 @@ import productsRouter from "./routes/products.router.js";
 import viewsRouter from "./routes/views.router.js";
 import messagesRouter from "./routes/messages.router.js";
 import usersRouter from "./routes/users.router.js";
-
+import githubRouter from "./routes/github.router.js";
 // declaro mi app
 const app = express();
 
@@ -64,6 +64,7 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/messages", messagesRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/github", githubRouter);
 app.use("/", viewsRouter);
 // exporto la app
 export default app;

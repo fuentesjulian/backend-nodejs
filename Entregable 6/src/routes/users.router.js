@@ -16,7 +16,6 @@ usersRouter
     }
   )
   .get("/failregister", (req, res) => {
-    
     res.status(400).send({ status: "error", payload: "User already exists" });
   })
   .post(
@@ -33,9 +32,11 @@ usersRouter
   .get("/failauth", (req, res) => {
     res.status(400).send({ status: "error", payload: "Cannot authenticate" });
   })
-  .post("/logout", async (req, res) => {
-    req.session.destroy();
-    res.redirect("/login");
+  .post("/logout", function (req, res, next) {
+    req.logout(function (err) {
+      if (err) console.log(err);
+      res.redirect("/");
+    });
   });
 
 export default usersRouter;

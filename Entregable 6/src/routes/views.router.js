@@ -9,6 +9,7 @@ const router = Router();
 
 // creo una funcion auxiliar
 const getUser = (req) => {
+  if (!req.user) return false;
   let user = asPOJO(req.user);
   delete user.password;
   delete user.__v;

@@ -10,6 +10,8 @@ import productsRouter from "./routes/products.router.js";
 import userRouter from "./routes/user.router.js";
 // importo el router para las vistas
 import viewsRouter from "./routes/views.router.js";
+// importo el cookie parser
+import cookieParser from "cookie-parser";
 
 // importo un error middleware
 import errorMiddleware from "./middleware/error.middleware.js";
@@ -20,6 +22,8 @@ const app = express();
 // agrego middlewares de express
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser("B2zdY3B$pHmxW%"));
 
 // setteo el engine
 app.engine("handlebars", handlebars.engine());

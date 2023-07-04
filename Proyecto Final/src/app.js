@@ -7,6 +7,7 @@ import handlebars from "express-handlebars";
 // importo el carts y el products router
 import cartsRouter from "./routes/carts.router.js";
 import productsRouter from "./routes/products.router.js";
+import userRouter from "./routes/user.router.js";
 // importo el router para las vistas
 import viewsRouter from "./routes/views.router.js";
 
@@ -31,6 +32,7 @@ app.set("view engine", "handlebars");
 // defino las rutas
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
+app.use("/api/auth", userRouter);
 app.use("/", viewsRouter);
 
 // agrego el middleware para el manejo de error

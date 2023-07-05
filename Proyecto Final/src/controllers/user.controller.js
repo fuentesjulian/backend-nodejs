@@ -34,8 +34,6 @@ export const login = async (req, res, next) => {
   }
 };
 export const logout = async (req, res, next) => {
-  try {
-  } catch (error) {
-    next(error);
-  }
+  if (req.cookies.token) res.clearCookie("token");
+  res.redirect("/");
 };

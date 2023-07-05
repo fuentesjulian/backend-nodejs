@@ -6,6 +6,6 @@ const userRouter = Router();
 userRouter
   .post("/register", userController.register)
   .post("/login", userController.login)
-  .post("/logout");
+  .post("/logout", userController.logout);
 
 export default userRouter;

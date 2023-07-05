@@ -12,10 +12,13 @@ import userRouter from "./routes/user.router.js";
 import viewsRouter from "./routes/views.router.js";
 // importo el cookie parser
 import cookieParser from "cookie-parser";
-
+// importo passport
+import passport from "passport";
+import initPassport from "./config/passport.config.js";
 // importo un error middleware
 import errorMiddleware from "./middleware/error.middleware.js";
-
+// importo middleware de jwt
+import jwtMiddleware from "./middleware/jwt.middleware.js";
 // declaro mi app
 const app = express();
 
@@ -24,6 +27,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser("B2zdY3B$pHmxW%"));
+
+initPassport();
+app.use(passport.initialize());
 
 // setteo el engine
 app.engine("handlebars", handlebars.engine());
@@ -37,6 +43,10 @@ app.set("view engine", "handlebars");
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/auth", userRouter);
+app.get("/private", jwtMiddleware, (req, res) => {
+  console.log("Llega igual???????????????????")
+  res.status(200).send(req.user);
+});
 app.use("/", viewsRouter);
 
 // agrego el middleware para el manejo de error

@@ -8,7 +8,7 @@ const router = Router();
 router
   .get("/", viewsController.home)
   .get("/products", viewsController.getAllProducts) // veo todos los productos segun filtros
-  .get("/products/new", viewsController.createOneProduct) // vista para crear prods
+  .get("/products/new", isAuth, viewsController.createOneProduct) // vista para crear prods
   .get("/products/:pid", viewsController.getOneProduct) // vista de un prod
   .get("/carts/:cid", isAuth, viewsController.getOneCart) // vista de una cart
   .get("/register", isGuest, viewsController.register)

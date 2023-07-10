@@ -162,6 +162,9 @@ footer {
 #logout-btn {
   padding: 0;
   font-weight: bold;
+  width: 10rem;
+  height: 2rem;
+  text-align: left;
 }
 
 h1 {
@@ -181,10 +184,10 @@ h1 {
   text-align: center;
 }
 
-#profile{
+#profile {
   max-width: 50rem;
 }
 
-#profile img{
+#profile img {
   max-width: 100%;
 }

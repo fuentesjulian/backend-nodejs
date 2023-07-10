@@ -10,6 +10,7 @@ const inCartStr = document.getElementById("inCart");
 const cartUrl = document.getElementById("cartUrl");
 const navCartUrl = document.getElementById("navCartUrl");
 const delBtn = document.getElementById("delBtn");
+let inCart = false;
 
 const handleCart = async () => {
   const response = await fetch("http://localhost:8080/api/carts", {
@@ -19,9 +20,11 @@ const handleCart = async () => {
     const json = await response.json();
     cart.id = json.payload._id;
     cart.products = json.payload.products;
+    inCart = cart.products.find((prod) => prod.product === prodId);
+    cartUrl.href = `http://localhost:8080/carts/${cart.id}`;
+    navCartUrl.href = `http://localhost:8080/carts/${cart.id}`;
   }
 
-  const inCart = cart.products.find((prod) => prod.product === prodId);
   if (inCart) {
     quantity.innerText = inCart.quantity;
     inCartStr.innerText = `${inCart.quantity} in cart`;
@@ -32,16 +35,14 @@ const handleCart = async () => {
     delBtn.style.display = "none";
   }
 
-  cartUrl.href = `http://localhost:8080/carts/${cart.id}`;
-  navCartUrl.href = `http://localhost:8080/carts/${cart.id}`;
   if (stock === 0) buyBtn.className = buyBtn.className + " disabled";
 };
 
 const addProd = async () => {
   const qty = parseInt(quantity.innerText);
-  console.log(cart.id)
-  console.log(prodId)
-  console.log(qty)
+  console.log(cart.id);
+  console.log(prodId);
+  console.log(qty);
   const response = await fetch(
     `http://localhost:8080/api/carts/${cart.id}/products/${prodId}`,
     {
@@ -81,7 +82,11 @@ plusBtn.onclick = () => {
 };
 
 buyBtn.onclick = () => {
-  addProd();
+  if (cart.id) {
+    addProd();
+  } else {
+    window.location.href = `http://localhost:8080/login?product=${prodId}`;
+  }
 };
 
 delBtn.onclick = () => {

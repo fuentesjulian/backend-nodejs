@@ -1,4 +1,5 @@
 let cart = {};
+const cartInfo = document.getElementById("cartInfo");
 
 const substractOne = async (prodId) => {
   const quantity = document.getElementById(`quantity-${prodId}`);
@@ -57,6 +58,9 @@ const handleCart = async () => {
     const json = await response.json();
     cart.id = json.payload._id;
     cart.products = json.payload.products;
+    if (cart.products.length === 0) {
+      cartInfo.innerHTML = `<h2 id="empty-cart">Your cart is empty...</h2><h1><a href="http://localhost:8080/products">Go shopping!</a></h1>`;
+    }
   }
 };
 

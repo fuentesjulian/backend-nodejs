@@ -1,14 +1,16 @@
 const loginForm = document.getElementById("loginForm");
 const errorHtml = document.getElementById("error");
+let product;
+let redirectUrl = "/";
 
 const renderError = (error) => {
   errorHtml.innerHTML = `<div class="alert alert-danger" role="alert">${error}</div>`;
 };
 
 const redirect = () => {
-    loginForm.innerHTML = `<div>Login successful... redirecting!!!</div>`;
+  loginForm.innerHTML = `<div>Login successful... redirecting!!!</div>`;
   setTimeout(() => {
-    window.location.href = "/";
+    window.location.href = redirectUrl;
   }, 1500);
 };
 
@@ -32,3 +34,11 @@ const handleLogin = async (e) => {
 };
 
 loginForm.addEventListener("submit", handleLogin);
+
+const handleLoad = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const product = urlParams.get("product");
+  if (product) redirectUrl = `/products/${product}`;
+};
+
+window.onload = handleLoad;

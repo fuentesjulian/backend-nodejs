@@ -50,12 +50,10 @@ app.set("view engine", "handlebars");
 
 
 // defino las rutas
-app.use("/api/carts", cartsRouter);
+app.use("/api/carts", jwtMiddleware, cartsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/auth", userRouter);
-app.get("/private", jwtMiddleware, (req, res) => {
-  res.status(200).send(req.user);
-});
+
 app.use("/", viewsRouter);
 
 // agrego el middleware para el manejo de error

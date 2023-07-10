@@ -11,7 +11,6 @@ const jwtMiddleware = async (req, res, next) => {
         message: info.messages ? info.messages : info.toString(),
       });
     }
-
     req.user = usr;
     next();
   })(req, res, next);

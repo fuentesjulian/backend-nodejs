@@ -15,5 +15,10 @@ export const login = async (email, password) => {
   if (!user) throw new CustomError(400, "Cannot authenticate");
   const isAuth = isValidPassword(user, password);
   if (!isAuth) throw new CustomError(400, "Cannot authenticate");
+  if (
+    email === "adminCoder@coder.com" &&
+    password ==="adminCod3r123"
+  ) user.role = "admin";
+
   return user;
 };

@@ -44,6 +44,19 @@ export const addProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+export const checkout = async (req, res, next) => {
+  try {
+    const user = req.user;
+    console.log(req.user)
+    const cid = req.params.cid;
+    const cart = await cartsService.checkout(cid);
+    res.status(201).send({ status: "success", payload: { cart } });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const removeProduct = async (req, res, next) => {
   try {
     const cid = req.params.cid;

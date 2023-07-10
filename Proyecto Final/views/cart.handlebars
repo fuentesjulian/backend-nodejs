@@ -1,6 +1,6 @@
 <div class="container" id="cartInfo">
   {{#if cart.products.length}}
-    <h1>Cart ID {{cart._id}}</h1>
+    <h1>Cart ID <span id="cid">{{cart._id}}</span></h1>
     {{#each cart.products}}
       <div class="cartItem" id="cart-{{this.product._id}}">
       <div class="image"><img src="{{this.product.thumbnails.[0]}}" /></div>
@@ -20,4 +20,7 @@
   <h2 id="empty-cart">Your cart is empty...</h2><h1><a href="http://localhost:8080/products">Go shopping!</a></h1>
   {{/if}}
 </div>
+{{#if cart.products.length}}
+<div class="btn btn-success" id="checkout">Checkout</div>
+{{/if}}
 <script src="/js/cart.js"></script>

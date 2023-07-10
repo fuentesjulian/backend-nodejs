@@ -17,10 +17,22 @@ class CartsService {
   async handleCart(uid) {
     const user = await User.findById(uid);
     if (!user) throw new CustomError(403, "Forbidden");
-    if (user.cart) return await this.getCart(user.cart);
-    const cart = await this.createCart();
-    user.cart = cart._id;
+    const userData = await user.populate("carts");
+    let openCart = userData.carts.find((cart) => cart.status === "open");
+    if (openCart) return openCart;
+    const newCart = await this.createCart();
+    user.carts.push(newCart._id);
     await user.save();
+    return newCart;
+  }
+
+  async checkout(cid) {
+    const isValid = mongoose.Types.ObjectId.isValid(cid);
+    if (!isValid) throw new CustomError(400, "Parametros invalidos");
+    const cart = await this.Cart.findById(cid);
+    if (!cart) throw new CustomError(400, "No existe el carrito");
+    cart.status = "billed";
+    await cart.save();
     return cart;
   }
 

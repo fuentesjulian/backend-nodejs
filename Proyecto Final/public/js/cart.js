@@ -1,5 +1,19 @@
 let cart = {};
 const cartInfo = document.getElementById("cartInfo");
+const checkout = document.getElementById("checkout");
+const cid = document.getElementById("cid").innerText;
+
+const handleCheckout = async () => {
+  const response = await fetch(
+    `http://localhost:8080/api/carts/checkout/${cart.id}`,
+    { method: "POST" }
+  );
+  const json = await response.json();
+  if (json.status === "success") alert("Cart facturada");
+  handleCart();
+};
+
+checkout.onclick = handleCheckout;
 
 const substractOne = async (prodId) => {
   const quantity = document.getElementById(`quantity-${prodId}`);

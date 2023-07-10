@@ -191,3 +191,7 @@ h1 {
 #profile img {
   max-width: 100%;
 }
+
+#message{
+  text-align: center;
+}

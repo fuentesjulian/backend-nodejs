@@ -1,5 +1,6 @@
 const loginForm = document.getElementById("loginForm");
 const errorHtml = document.getElementById("error");
+const message = document.getElementById("message")
 let product;
 let redirectUrl = "/";
 
@@ -39,6 +40,7 @@ const handleLoad = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const product = urlParams.get("product");
   if (product) redirectUrl = `/products/${product}`;
+  if(redirectUrl!="/") message.innerHTML = "<b>You must be logged in to add products to cart...</b>"
 };
 
 window.onload = handleLoad;

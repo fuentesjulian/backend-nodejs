@@ -1,6 +1,7 @@
 import CustomError from "../utils/CustomError.utils.js";
 import * as userService from "../services/user.service.js";
 import generateToken from "../utils/jwt.utils.js";
+import asPOJO from "../utils/asPOJO.utils.js";
 
 export const register = async (req, res, next) => {
   try {
@@ -36,4 +37,11 @@ export const login = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   if (req.cookies.token) res.clearCookie("token");
   res.redirect("/");
+};
+
+export const current = async (req, res, next) => {
+  let user = asPOJO(req.user);
+  delete user.password;
+  delete user.__v;
+  res.status(200).send({ status: "success", payload: user });
 };

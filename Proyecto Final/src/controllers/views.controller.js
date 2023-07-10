@@ -73,3 +73,8 @@ export const notFound = (req, res) => {
   const user = getUser(req);
   res.render("notfound", { user });
 };
+
+export const profile = (req, res) => {
+  const user = getUser(req);
+  res.render("profile", { user });
+};

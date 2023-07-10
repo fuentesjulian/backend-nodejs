@@ -13,6 +13,7 @@ router
   .get("/carts/:cid", isAuth, viewsController.getOneCart) // vista de una cart
   .get("/register", isGuest, viewsController.register)
   .get("/login", isGuest, viewsController.login)
+  .get("/profile", isAuth, viewsController.profile)
   .get("*", viewsController.notFound); // vista de un not found
 
 export default router;

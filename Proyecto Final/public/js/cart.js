@@ -2,6 +2,7 @@ let cart = {};
 const cartInfo = document.getElementById("cartInfo");
 const checkout = document.getElementById("checkout");
 const cid = document.getElementById("cid").innerText;
+const navCartUrl = document.getElementById("navCartUrl");
 
 const handleCheckout = async () => {
   const response = await fetch(
@@ -75,6 +76,7 @@ const handleCart = async () => {
     if (cart.products.length === 0) {
       cartInfo.innerHTML = `<h2 id="empty-cart">Your cart is empty...</h2><h1><a href="http://localhost:8080/products">Go shopping!</a></h1>`;
     }
+    navCartUrl.href = `http://localhost:8080/carts/${cart.id}`;
   }
 };
 

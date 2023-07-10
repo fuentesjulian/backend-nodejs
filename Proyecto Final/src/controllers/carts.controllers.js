@@ -1,6 +1,17 @@
+import User from "../models/User.js";
 import cartsService from "../services/carts.service.js";
 import CustomError from "../utils/CustomError.utils.js";
 
+export const handleCart = async (req, res, next) => {
+  try {
+    const user = req.user;
+    if (!user) throw new CustomError(403, "Forbidden");
+    const cart = await cartsService.handleCart(user._id);
+    res.status(201).send({ status: "success", payload: cart });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // en todos estos casos estoy catcheando los errores
 // tengo un middleware que despues distribuye las respuestas

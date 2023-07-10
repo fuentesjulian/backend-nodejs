@@ -6,7 +6,7 @@ import * as cartsController from "../controllers/carts.controllers.js";
 const router = Router();
 
 router
-  .post("/", cartsController.createCart) // crear una cart
+  .post("/", cartsController.handleCart) // crear una cart
   .get("/:cid", cartsController.getCart) // obtener cart por id
   .post("/:cid/products/:pid", cartsController.addProduct) // agregar un prod a una cart
   .delete("/:cid/products/:pid", cartsController.removeProduct) // eliminar prod de una cart

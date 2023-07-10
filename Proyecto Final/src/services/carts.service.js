@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 import Cart from "../models/Cart.js";
 import Product from "../models/Product.js";
 import CustomError from "../utils/CustomError.utils.js";
+import User from "../models/User.js";
 
-
-// la innovacion grande de este codigo vs entrega anterior es que 
+// la innovacion grande de este codigo vs entrega anterior es que
 // estoy usando mongoDB
 // estoy arrojando errores custom
 
@@ -12,6 +12,16 @@ class CartsService {
   constructor() {
     this.Cart = Cart;
     this.Product = Product;
+  }
+
+  async handleCart(uid) {
+    const user = await User.findById(uid);
+    if (!user) throw new CustomError(403, "Forbidden");
+    if (user.cart) return await this.getCart(user.cart);
+    const cart = await this.createCart();
+    user.cart = cart._id;
+    await user.save();
+    return cart;
   }
 
   async createCart() {

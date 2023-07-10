@@ -1,4 +1,4 @@
-let cart;
+let cart = {};
 
 const minusBtn = document.getElementById("minusBtn");
 const plustBtn = document.getElementById("plusBtn");
@@ -12,51 +12,36 @@ const navCartUrl = document.getElementById("navCartUrl");
 const delBtn = document.getElementById("delBtn");
 
 const handleCart = async () => {
-  let cartId = localStorage.getItem("cartId");
-  if (cartId) cart = await getCart(cartId);
-  if (!cart) cart = await createCart();
-  localStorage.setItem("cartId", cart.id);
+  const response = await fetch("http://localhost:8080/api/carts", {
+    method: "POST",
+  });
+  if (response.status === 201) {
+    const json = await response.json();
+    cart.id = json.payload._id;
+    cart.products = json.payload.products;
+  }
+
   const inCart = cart.products.find((prod) => prod.product === prodId);
   if (inCart) {
     quantity.innerText = inCart.quantity;
     inCartStr.innerText = `${inCart.quantity} in cart`;
-    delBtn.style.display = "inline";
+    delBtn.style.display = "block";
   } else {
     quantity.innerText = 1;
     inCartStr.innerText = "Purchase now!";
     delBtn.style.display = "none";
   }
+
   cartUrl.href = `http://localhost:8080/carts/${cart.id}`;
   navCartUrl.href = `http://localhost:8080/carts/${cart.id}`;
   if (stock === 0) buyBtn.className = buyBtn.className + " disabled";
 };
 
-const getCart = async (cid) => {
-  const response = await fetch(`http://localhost:8080/api/carts/${cid}`);
-  const json = await response.json();
-  if (json.status === "success") {
-    const id = json.payload.cart._id;
-    const products = json.payload.cart.products;
-    const cart = { id, products };
-    return cart;
-  } else {
-    return false;
-  }
-};
-
-const createCart = async () => {
-  const response = await fetch(`http://localhost:8080/api/carts`, {
-    method: "POST",
-  });
-  const json = await response.json();
-  const id = json.payload.cart._id;
-  const products = json.payload.cart.products;
-  const cart = { id, products };
-  return cart;
-};
-
 const addProd = async () => {
   const qty = parseInt(quantity.innerText);
+  console.log(cart.id)
+  console.log(prodId)
+  console.log(qty)
   const response = await fetch(
     `http://localhost:8080/api/carts/${cart.id}/products/${prodId}`,
     {
@@ -86,6 +71,7 @@ minusBtn.onclick = () => {
     quantity.innerText = q;
   }
 };
+
 plusBtn.onclick = () => {
   let q = parseInt(quantity.innerText);
   if (q < stock) {
